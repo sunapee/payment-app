@@ -240,9 +240,9 @@ if menu == "入金":
             elif currency == "JPY":
                 deposit_amount = st.number_input("入金額 JPY", min_value=0.0, max_value=float(total_urikake_amount))
                 fee_amount = total_urikake_amount - deposit_amount
-                profit_margin = deposit_amount - total_urikake_amount
+                
                 st.write(f"手数料 JPY: {fee_amount:,.0f}")
-                st.write(f"差益 JPY: {profit_margin:,.0f}")
+               
        
 
     # データベースに追加
