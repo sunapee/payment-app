@@ -14,9 +14,9 @@ def load_css():
 
 load_css()
 
-
-SUPABASE_URL = "https://dkfvwjxmrirclgbmoehl.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrZnZ3anhtcmlyY2xnYm1vZWhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3MTEzMDAsImV4cCI6MjA1ODI4NzMwMH0.cjo2Eecsr05vnbib37YQakx-H0r--OF3iMUP20EvGdY"
+# Supabaseの設定を環境変数から取得
+SUPABASE_URL = st.secrets["SUPABASE_URL"]
+SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
