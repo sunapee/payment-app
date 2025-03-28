@@ -79,7 +79,7 @@ if menu == "入金":
         
         method = st.selectbox("入金タイプ", ["前受入金", "売掛"])
         currency = st.selectbox("通貨", ["JPY", "USD", "EUR","GBP"])
-        paytype = st.selectbox("一部or全部", ["一部", "全部"])
+        paytype = st.selectbox("一部or全部", ["全部", "一部"])
         customer = st.text_input("顧客名")
 
         if (method == "売掛" or method == "前受入金") and currency == "USD":
