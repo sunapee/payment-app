@@ -122,35 +122,50 @@ if menu == "入金":
                 total_advance_amount += advance_amount
 
         elif method == "売掛":
-            num_invoice = st.number_input("Invoiceの数", min_value=1, value=1)
-            total_urikake_amount: float = 0.0
-            plan_details = []
+            if currency == "JPY":
+                num_plans = st.number_input("計画番号の数", min_value=1, value=1)
+                total_urikake_amount: float = 0.0
+                plan_details = []
 
-            for i in range(int(num_invoice)):
-                invoice_number = st.text_input(f"Invoice番号 {i+1}")
-                urikake_date = st.date_input(f"売掛日 {i+1}")
-
-                if currency == "JPY":
+                for i in range(int(num_plans)):
+                    plan_number = st.text_input(f"計画番号 {i+1}")
+                    urikake_date = st.date_input(f"売掛日 {i+1}")
                     urikake_amount = st.number_input(f"売掛額{i+1} JPY", placeholder="入力")
-                elif currency == "USD":
-                    usd_amount = st.number_input(f"売掛額{i+1} USD", placeholder="入力")
-                    urikake_amount = usd_amount * 103.00
-                    st.write(f"JPY換算: {urikake_amount:,.0f}")
-                elif currency == "EUR":
-                    eur_amount = st.number_input(f"売掛額{i+1} EUR", placeholder="入力")
-                    urikake_amount = eur_amount * 120.00
-                    st.write(f"JPY換算: {urikake_amount:,.0f}")
-                elif currency == "GBP":
-                    gbp_amount = st.number_input(f"売掛額{i+1} GBP", placeholder="入力")
-                    urikake_amount = gbp_amount * today_rate_gbp
-                    st.write(f"JPY換算: {urikake_amount:,.0f}")
 
-                plan_details.append({
-                    "invoice_number": invoice_number,
-                    "urikake_amount": urikake_amount,
-                    "urikake_date": urikake_date
-                })
-                total_urikake_amount += urikake_amount
+                    plan_details.append({
+                        "plan_number": plan_number,  
+                        "urikake_amount": urikake_amount,
+                        "urikake_date": urikake_date
+                    })
+                    total_urikake_amount += urikake_amount
+            else:
+                num_invoice = st.number_input("Invoiceの数", min_value=1, value=1)
+                total_urikake_amount: float = 0.0
+                plan_details = []
+
+                for i in range(int(num_invoice)):
+                    invoice_number = st.text_input(f"Invoice番号 {i+1}")
+                    urikake_date = st.date_input(f"売掛日 {i+1}")
+
+                    if currency == "USD":
+                        usd_amount = st.number_input(f"売掛額{i+1} USD", placeholder="入力")
+                        urikake_amount = usd_amount * 103.00
+                        st.write(f"JPY換算: {urikake_amount:,.0f}")
+                    elif currency == "EUR":
+                        eur_amount = st.number_input(f"売掛額{i+1} EUR", placeholder="入力")
+                        urikake_amount = eur_amount * 120.00
+                        st.write(f"JPY換算: {urikake_amount:,.0f}")
+                    elif currency == "GBP":
+                        gbp_amount = st.number_input(f"売掛額{i+1} GBP", placeholder="入力")
+                        urikake_amount = gbp_amount * today_rate_gbp
+                        st.write(f"JPY換算: {urikake_amount:,.0f}")
+
+                    plan_details.append({
+                        "invoice_number": invoice_number,
+                        "urikake_amount": urikake_amount,
+                        "urikake_date": urikake_date
+                    })
+                    total_urikake_amount += urikake_amount
         
 
 
@@ -164,83 +179,79 @@ if menu == "入金":
             if currency == "JPY":
                 deposit_amount = st.number_input("入金額 JPY", min_value=0.0, max_value=float(total_advance_amount))
                 fee_amount = total_advance_amount - deposit_amount
-                st.write(f"手数料 JPY: {math.ceil(fee_amount):,.0f}")
+                st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
             elif currency == "USD":
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
                 jpy_deposit_amount = deposit_amount * today_rate_usd
                 st.write(f"入金額 JPY: {int(jpy_deposit_amount):,.0f}")
                 fee_amount = ((total_advance_amount/103.00) - (deposit_amount)) * today_rate_usd
-                st.write(f"手数料 JPY: {math.ceil(fee_amount):,.0f}")
+                st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
                 profit_margin = jpy_deposit_amount + fee_amount - total_advance_amount
-                st.write(f"差益 JPY: {profit_margin:,.0f}")
+                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
             elif currency == "EUR":
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
                 jpy_deposit_amount = deposit_amount * today_rate_eur
                 st.write(f"入金額 JPY: {int(jpy_deposit_amount):,.0f}")
                 fee_amount = ((total_advance_amount/120.00) - (deposit_amount)) * today_rate_eur
-                st.write(f"手数料 JPY: {math.ceil(fee_amount):,.0f}")
+                st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
                 profit_margin = jpy_deposit_amount + fee_amount - total_advance_amount
-                st.write(f"差益 JPY: {profit_margin:,.0f}")
+                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
             elif currency == "GBP":
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
                 jpy_deposit_amount = deposit_amount * today_rate_gbp
                 st.write(f"入金額 JPY: {int(jpy_deposit_amount):,.0f}")
                 fee_amount = (total_advance_amount) - (jpy_deposit_amount) 
-                st.write(f"手数料 JPY: {math.ceil(fee_amount):,.0f}")
+                st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
+                profit_margin = jpy_deposit_amount + fee_amount - total_advance_amount
+                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
 
 
         elif method == "売掛":
             st.write(f"合計売掛額 JPY: {total_urikake_amount:,.0f}")
             
             if currency == "USD":
-                
-                
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
                 jpy_deposit_amount = deposit_amount * today_rate_usd
                 st.write(f"入金額 JPY: {int(jpy_deposit_amount):,.0f}")
                 
                 # 差益の計算：(当日レート - 103) * 売掛額(USD)
                 profit_margin = (today_rate_usd - 103) * (total_urikake_amount/103.00)
-                st.write(f"差益 JPY: {profit_margin:,.0f}")
+                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
                 
                 # 手数料の計算：売掛額 + 差益 - 入金額
                 fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
-                st.text_input("手数料 JPY", value=f"{math.ceil(fee_amount):,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
+                st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
             
             elif currency == "EUR":
-                
-                
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
                 jpy_deposit_amount = deposit_amount * today_rate_eur
                 st.write(f"入金額 JPY: {int(jpy_deposit_amount):,.0f}")
                 
-                 # 差益の計算：(当日レート - 103) * 売掛額(USD)
+                # 差益の計算：(当日レート - 120) * 売掛額(EUR)
                 profit_margin = (today_rate_eur - 120) * (total_urikake_amount/120.00)
-                st.write(f"差益 JPY: {profit_margin:,.0f}")
+                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
                 
                 # 手数料の計算：売掛額 + 差益 - 入金額
                 fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
-                st.text_input("手数料 JPY", value=f"{math.ceil(fee_amount):,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
+                st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
             
             elif currency == "GBP":
-                
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
                 jpy_deposit_amount = deposit_amount * today_rate_gbp
                 st.write(f"入金額 JPY: {int(jpy_deposit_amount):,.0f}")
                 
                 # 差益の計算
                 profit_margin = jpy_deposit_amount - total_urikake_amount
-                st.write(f"差益 JPY: {profit_margin:,.0f}")
+                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
                 
                 # 手数料の計算
-                fee_amount =  jpy_deposit_amount - total_urikake_amount
-                st.text_input("手数料 JPY", value=f"{math.ceil(fee_amount):,.0f}", key="fee_amount_urikake_gbp", placeholder="自動計算されます")
+                fee_amount = jpy_deposit_amount - total_urikake_amount
+                st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_urikake_gbp", placeholder="自動計算されます")
             
             elif currency == "JPY":
                 deposit_amount = st.number_input("入金額 JPY", min_value=0.0, max_value=float(total_urikake_amount))
                 fee_amount = total_urikake_amount - deposit_amount
-                
-                st.write(f"手数料 JPY: {math.ceil(fee_amount):,.0f}")
+                st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
                
        
 
@@ -250,11 +261,11 @@ if menu == "入金":
             if currency == "JPY":
                 profit_margin = 0  # JPYの場合は差益なし
             elif currency == "USD":
-                profit_margin = jpy_deposit_amount + fee_amount - total_advance_amount
+                profit_margin = int(jpy_deposit_amount + fee_amount - total_advance_amount)
             elif currency == "EUR":
-                profit_margin = jpy_deposit_amount + fee_amount - total_advance_amount
+                profit_margin = int(jpy_deposit_amount + fee_amount - total_advance_amount)
             elif currency == "GBP":
-                profit_margin = jpy_deposit_amount + fee_amount - total_advance_amount
+                profit_margin = int(jpy_deposit_amount + fee_amount - total_advance_amount)
             for detail in plan_details:
                 add_payment(
                     method=method,
@@ -263,18 +274,18 @@ if menu == "入金":
                     customer=customer,
                     total_advance_amount=detail["advance_amount"],
                     deposit_amount=deposit_amount,
-                    fee_amount=fee_amount,
+                    fee_amount=int(fee_amount),
                     profit_margin=profit_margin,
                     plan_number=detail["plan_number"]
                 )
         elif method == "売掛":
             for detail in plan_details:
                 if currency == "USD":
-                    profit_margin = (today_rate_usd - 103) * (total_urikake_amount/103.00)
+                    profit_margin = int((today_rate_usd - 103) * (total_urikake_amount/103.00))
                 elif currency == "EUR":
-                    profit_margin = (today_rate_eur - 120) * (total_urikake_amount/120.00)
+                    profit_margin = int((today_rate_eur - 120) * (total_urikake_amount/120.00))
                 elif currency == "GBP":
-                    profit_margin = jpy_deposit_amount - total_urikake_amount
+                    profit_margin = int(jpy_deposit_amount - total_urikake_amount)
                 else:  # JPY
                     profit_margin = 0
                 add_payment(
@@ -282,12 +293,13 @@ if menu == "入金":
                     currency=currency,
                     paytype=paytype,
                     customer=customer,
-                    total_advance_amount=0,  # 売掛の場合は0を設定
-                    total_urikake_amount=detail["urikake_amount"],  # 売掛額を設定
+                    total_advance_amount=0,
+                    total_urikake_amount=detail["urikake_amount"],
                     deposit_amount=deposit_amount,
-                    fee_amount=fee_amount,
+                    fee_amount=int(fee_amount),
                     profit_margin=profit_margin,
-                    invoice_number=detail["invoice_number"],
+                    invoice_number=None if currency == "JPY" else detail["invoice_number"],
+                    plan_number=detail["plan_number"] if currency == "JPY" else None,
                     urikake_date=detail["urikake_date"]
                 )
         
