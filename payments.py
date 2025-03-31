@@ -46,12 +46,6 @@ def delete_payment(payment_id):
     try:
         # 削除処理
         response = supabase.table("payments").delete().eq("id", payment_id).execute()
-        
-        # レスポンスの詳細を出力
-        st.write("削除レスポンス:", response)
-        
-        # 削除成功の判定を修正
-        # データがからの配列で、例外が発生していない場合は成功とみなす
         return response.data is not None
     except Exception as e:
         st.error(f"削除中にエラーが発生しました: {str(e)}")
@@ -317,7 +311,7 @@ if menu == "データ覧":
             
             if deletion_result:
                 st.success("削除リクエストを送信しました。")
-                time.sleep(2)  # 2秒待つ
+                
                 st.rerun()
             else:
                 st.error("削除に失敗しました。")
