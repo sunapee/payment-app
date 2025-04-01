@@ -62,14 +62,14 @@ def check_deletion(payment_id):
         st.error(f"確認中にエラーが発生しました: {str(e)}")
         return False
 # Custom title with added styling
-st.markdown('<div class="title">入金データ管理アプリ</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">入金伝票作成システム</div>', unsafe_allow_html=True)
 
 # Sidebar with menu
 menu = st.sidebar.radio("メニューを選択してください", ["入金", "データ覧"])
 
 
 if menu == "入金":
-    st.header("新しい入金データを追加")
+    st.header("入金伝票")
     col1, col2, col3 = st.columns([1,1,1])
 
     with col1:
