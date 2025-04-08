@@ -171,12 +171,17 @@ if menu == "入金":
                 fee_amount = total_advance_amount - deposit_amount
                 st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
             elif currency == "USD":
-                deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
+                deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0,key="deposit_usd_advance")
                 jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
+                # 差益の計算：(当日レート - 103) * USD額
+                # 103.00はコード上の基準レート
+                base_rate = 103.00
+                usd_amount = total_advance_amount / base_rate  # 基準レートでUSDに換算
+                profit_margin = (today_rate_usd - base_rate) * usd_amount
                 st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance", placeholder="自動計算されます")
-                # 差益の計算：(当日レート - 103) * 売掛額(USD)
-                profit_margin = (today_rate_usd - 103) * (total_advance_amount/103.00)
-                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
+                # 差益JPYをtext_inputで表示（自動更新されるように）
+                st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
+                
                 fee_amount = total_advance_amount + profit_margin - jpy_deposit_amount
                 st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
                 
@@ -184,11 +189,19 @@ if menu == "入金":
             elif currency == "EUR":
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
                 jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
+
+                # 差益の計算：(当日レート - 120) * EUR額
+                # 120.00はコード上の基準レート
+                base_rate = 120.00
+                eur_amount = total_advance_amount / base_rate  # 基準レートでEURに換算
+                profit_margin = (today_rate_eur - base_rate) * eur_amount
+
+                # 入金額JPYをtext_inputで表示
                 st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance_eur", placeholder="自動計算されます") 
 
-                 # 差益の計算：(当日レート - 103) * 売掛額(USD)
-                profit_margin = (today_rate_eur - 120) * (total_advance_amount/120.00)
-                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
+                # 差益JPYをtext_inputで表示（自動更新されるように）
+                st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_advance_eur", placeholder="自動計算されます")
+
                 fee_amount = total_advance_amount + profit_margin - jpy_deposit_amount
                 st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
 
@@ -203,11 +216,16 @@ if menu == "入金":
             if currency == "USD":
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
                 jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
+
+                # 差益の計算：(当日レート - 103) * USD額
+                base_rate = 103.00
+                usd_amount = total_urikake_amount / base_rate  # 基準レートでUSDに換算
+                profit_margin = (today_rate_usd - base_rate) * usd_amount
+                # 入金額JPYをtext_inputで表示
                 st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
                 
-                # 差益の計算：(当日レート - 103) * 売掛額(USD)
-                profit_margin = (today_rate_usd - 103) * (total_urikake_amount/103.00)
-                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
+                # 差益JPYをtext_inputで表示（自動更新されるように）
+                st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_urikake_usd", placeholder="自動更新されます")
                 
                 # 手数料の計算：売掛額 + 差益 - 入金額
                 fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
@@ -216,11 +234,16 @@ if menu == "入金":
             elif currency == "EUR":
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
                 jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
+
+                # 差益の計算：(当日レート - 120) * EUR額
+                base_rate = 120.00
+                eur_amount = total_urikake_amount / base_rate  # 基準レートでEURに換算
+                profit_margin = (today_rate_eur - base_rate) * eur_amount
+
                 st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
                 
-                # 差益の計算：(当日レート - 120) * 売掛額(EUR)
-                profit_margin = (today_rate_eur - 120) * (total_urikake_amount/120.00)
-                st.write(f"差益 JPY: {int(profit_margin):,.0f}")
+                # 差益JPYをtext_inputで表示（自動更新されるように）
+                st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_urikake_eur", placeholder="自動計算されます")
                 
                 # 手数料の計算：売掛額 + 差益 - 入金額
                 fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
