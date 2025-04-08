@@ -194,6 +194,11 @@ if menu == "入金":
 
         elif method == "売掛":
             st.write(f"合計売掛額 JPY: {total_urikake_amount:,.0f}")
+
+            if currency == "JPY":
+                deposit_amount = st.number_input("入金額 JPY", min_value=0.0, max_value=float(total_urikake_amount))
+                fee_amount = total_urikake_amount - deposit_amount
+                st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
             
             if currency == "USD":
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
