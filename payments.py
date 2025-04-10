@@ -169,6 +169,9 @@ if menu == "入金":
             if currency == "JPY":
                 deposit_amount = st.number_input("入金額 JPY", min_value=0.0, max_value=float(total_advance_amount))
                 fee_amount = total_advance_amount - deposit_amount
+                if abs(fee_amount) <= 1:
+                    fee_amount = 0
+
                 st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
             elif currency == "USD":
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0,key="deposit_usd_advance")
@@ -183,6 +186,9 @@ if menu == "入金":
                 st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
                 
                 fee_amount = total_advance_amount + profit_margin - jpy_deposit_amount
+                # 手数料が1以下なら0に設定
+                if abs(fee_amount) <= 1:
+                    fee_amount = 0
                 st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
                 
                 
@@ -203,6 +209,9 @@ if menu == "入金":
                 st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_advance_eur", placeholder="自動計算されます")
 
                 fee_amount = total_advance_amount + profit_margin - jpy_deposit_amount
+                # 手数料が1以下なら0に設定
+                if abs(fee_amount) <= 1:
+                    fee_amount = 0
                 st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
 
         elif method == "売掛":
@@ -211,6 +220,9 @@ if menu == "入金":
             if currency == "JPY":
                 deposit_amount = st.number_input("入金額 JPY", min_value=0.0, max_value=float(total_urikake_amount))
                 fee_amount = total_urikake_amount - deposit_amount
+                # 手数料が1以下なら0に設定
+                if abs(fee_amount) <= 1:
+                    fee_amount = 0
                 st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
             
             if currency == "USD":
@@ -229,6 +241,9 @@ if menu == "入金":
                 
                 # 手数料の計算：売掛額 + 差益 - 入金額
                 fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
+                # 手数料が1以下なら0に設定
+                if abs(fee_amount) <= 1:
+                    fee_amount = 0
                 st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
             
             elif currency == "EUR":
@@ -247,6 +262,9 @@ if menu == "入金":
                 
                 # 手数料の計算：売掛額 + 差益 - 入金額
                 fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
+                # 手数料が1以下なら0に設定
+                if abs(fee_amount) <= 1:
+                    fee_amount = 0
                 st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
             
        
