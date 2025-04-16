@@ -71,7 +71,7 @@ menu = st.sidebar.radio("メニューを選択してください", ["入金", "�
 
 if menu == "入金":
     st.header("入金伝票")
-    col1, col2, col3 = st.columns([3,3,3])
+    col1, col2, col3 = st.columns([1,1,1])
 
     with col1:
         st.subheader("基本情報")
