@@ -19,7 +19,7 @@
 
     /* 手数料の表示の文字サイズを大きく */
     .stMarkdown > div > p {
-        font-size: 24px;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -98,3 +98,34 @@
     .stSpinner > div {
         border-color: #3498db transparent #3498db transparent !important;
     }
+    
+
+    /* カラムを横に広げる */
+.row-widget.stHorizontal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 1600px;
+    gap: 20px;
+}
+
+/* 各カラムの幅を調整 */
+.row-widget.stHorizontal > div {
+    flex: 1;
+    min-width: 0;
+    padding: 10px;
+}
+
+/* カラム間の余白を調整 */
+.stColumn {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* 全体の最大幅を広げる */
+.block-container {
+    max-width: 1600px !important;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
