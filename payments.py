@@ -5,6 +5,7 @@ import time
 import os   
 import math
 
+
 def load_css():
     css_file = os.path.join(os.path.dirname(__file__), 'style.css')
     if os.path.exists(css_file):
@@ -99,14 +100,23 @@ if menu == "入金":
             for i in range(int(num_plans)):
                 plan_number = st.text_input(f"計画番号 {i+1}")
                 if currency == "JPY":
-                    advance_amount = st.number_input(f"前受額{i+1} JPY", placeholder="入力",key=f"advance_jpy_{i}")
+                    advance_amount_input = st.number_input(f"前受額{i+1} JPY", placeholder="入力",key=f"advance_jpy_{i}")
+                    
+                    advance_amount = float(advance_amount_input)
+                    st.write(f"前受額{i+1} JPY: {advance_amount:,.0f}")
+                    
+    
                 elif currency == "USD":
-                    usd_amount = st.number_input(f"前受額{i+1} USD", placeholder="入力",key=f"advance_usd_{i}")
+                    usd_amount_input = st.number_input(f"前受額{i+1} USD", placeholder="入力",key=f"advance_usd_{i}")
+                    usd_amount = float(usd_amount_input)
                     advance_amount = usd_amount * 103.00
+                    st.write(f"前受額{i+1} USD: {usd_amount:,.2f}")
                     st.write(f"JPY換算: {advance_amount:,.0f}")
                 elif currency == "EUR":
-                    eur_amount = st.number_input(f"前受額{i+1} EUR", placeholder="入力",key=f"advance_eur_{i}")
-                    advance_amount = eur_amount * 120.00
+                    eur_amount_input = st.number_input(f"前受額{i+1} EUR", placeholder="入力",key=f"advance_eur_{i}")
+                    eur_amount = float(eur_amount_input)
+                    advance_amount = eur_amount_input * 120.00
+                    st.write(f"前受額{i+1} EUR: {eur_amount:,.2f}")
                     st.write(f"JPY換算: {advance_amount:,.0f}")
 
                 plan_details.append({
@@ -124,7 +134,9 @@ if menu == "入金":
                 for i in range(int(num_plans)):
                     plan_number = st.text_input(f"計画番号 {i+1}")
                     urikake_date = st.date_input(f"売掛日 {i+1}")
-                    urikake_amount = st.number_input(f"売掛額{i+1} JPY", placeholder="入力")
+                    urikake_amount_input = st.number_input(f"売掛額{i+1} JPY", placeholder="入力")
+                    urikake_amount = float(urikake_amount_input)
+                    st.write(f"売掛額{i+1} JPY: {urikake_amount:,.0f}")
 
                     plan_details.append({
                         "plan_number": plan_number,  
@@ -142,12 +154,16 @@ if menu == "入金":
                     urikake_date = st.date_input(f"売掛日 {i+1}")
 
                     if currency == "USD":
-                        usd_amount = st.number_input(f"売掛額{i+1} USD", placeholder="入力")
+                        usd_amount_input = st.number_input(f"売掛額{i+1} USD", placeholder="入力")
+                        usd_amount = float(usd_amount_input)
                         urikake_amount = usd_amount * 103.00
+                        st.write(f"売掛額{i+1} USD: {usd_amount:,.2f}")
                         st.write(f"JPY換算: {urikake_amount:,.0f}")
                     elif currency == "EUR":
-                        eur_amount = st.number_input(f"売掛額{i+1} EUR", placeholder="入力")
+                        eur_amount_input = st.number_input(f"売掛額{i+1} EUR", placeholder="入力")
+                        eur_amount = float(eur_amount_input)
                         urikake_amount = eur_amount * 120.00
+                        st.write(f"売掛額{i+1} EUR: {eur_amount:,.2f}")
                         st.write(f"JPY換算: {urikake_amount:,.0f}")
 
                     plan_details.append({
