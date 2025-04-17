@@ -184,10 +184,11 @@ if menu == "入金":
             
             if currency == "JPY":
                 deposit_amount = st.number_input("入金額 JPY", min_value=0.0, max_value=float(total_advance_amount))
+                # 入金額JPYをtext_inputで表示
+                st.write(f"入金額 JPY {deposit_amount:,.0f}")
                 fee_amount = total_advance_amount - deposit_amount
                 if abs(fee_amount) <= 1:
                     fee_amount = 0
-
                 st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
             elif currency == "USD":
                 deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0,key="deposit_usd_advance")
