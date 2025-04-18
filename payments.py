@@ -18,6 +18,7 @@ def check_password():
         st.session_state["password_correct"] = False
 
     if not st.session_state["password_correct"]:
+        st.image("ncc_logo.jpg", use_container_width=True)
         st.text_input("パスワードを入力してください", type="password", on_change=password_entered, key="password")
         st.stop()
 
