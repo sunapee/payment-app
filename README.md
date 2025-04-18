@@ -2,7 +2,7 @@
 
 ## 概要
 
-このアプリは、Streamlit を使用して構築された入金管理アプリケーションです。Supabase のデータベースと連携し、入金データの登録・管理・削除が可能です。
+このアプリは、Streamlit を使用して構築された入金管理アプリケーションです。
 
 ## 機能
 
@@ -13,18 +13,11 @@
   - 計画番号またはInvoice番号の管理
   - 入金額・売掛額の入力
   - 手数料および差益の自動計算
-- **入金データの閲覧**
-  - Supabase から登録されたデータを取得
-  - DataFrame 形式で表示
-- **入金データの削除**
-  - ID を選択してデータを削除
-  - 削除後にデータを自動更新
 
 ## 使用技術
 
 - **Python**: メインのプログラミング言語
 - **Streamlit**: Web アプリケーションのフレームワーク
-- **Supabase**: データベースおよびバックエンド処理
 - **GitHub**: バージョン管理およびデプロイ用のリポジトリ
 - **Streamlit Cloud**: アプリのデプロイ環境
 
@@ -44,16 +37,6 @@ cd payment-app
 
 ```sh
 pip install -r requirements.txt
-```
-
-### 3. 環境変数の設定
-
-Supabase の API URL と API キーを `.streamlit/secrets.toml` に設定します。
-
-```toml
-[secrets]
-SUPABASE_URL = "your_supabase_url"
-SUPABASE_KEY = "your_supabase_key"
 ```
 
 ### 4. アプリの実行
@@ -87,5 +70,4 @@ git push origin main
 ## 参考
 
 - [Streamlit 公式ドキュメント](https://docs.streamlit.io/)
-- [Supabase 公式ドキュメント](https://supabase.com/docs/)
 
