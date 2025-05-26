@@ -125,13 +125,13 @@ with col2:
                 if currency == "USD":
                     usd_amount_input = st.number_input(f"売掛額{i+1} USD", placeholder="入力")
                     usd_amount = float(usd_amount_input)
-                    urikake_amount = usd_amount * 103.00
+                    urikake_amount = math.floor(usd_amount * 103.00)
                     st.write(f"売掛額{i+1} USD: {usd_amount:,.2f}")
                     st.write(f"JPY換算: {urikake_amount:,.0f}")
                 elif currency == "EUR":
                     eur_amount_input = st.number_input(f"売掛額{i+1} EUR", placeholder="入力")
                     eur_amount = float(eur_amount_input)
-                    urikake_amount = eur_amount * 120.00
+                    urikake_amount = math.floor(eur_amount * 120.00)
                     st.write(f"売掛額{i+1} EUR: {eur_amount:,.2f}")
                     st.write(f"JPY換算: {urikake_amount:,.0f}")
 
