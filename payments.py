@@ -234,7 +234,7 @@ with col3:
             # 差益の計算：(当日レート - 120) * EUR額
             base_rate = 120.00
             eur_amount = total_urikake_amount / base_rate  # 基準レートでEURに換算
-            profit_margin = (today_rate_eur - base_rate) * eur_amount
+            profit_margin = (today_rate_eur - base_rate) * deposit_amount
 
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
             
