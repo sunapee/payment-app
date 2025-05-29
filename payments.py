@@ -96,12 +96,12 @@ with col2:
 
     elif method == "売掛":
         if currency == "JPY":
-            num_plans = st.number_input("計画番号/INVOICEの数", min_value=1, value=1)
+            num_plans = st.number_input("計画No/INVOICEの数", min_value=1, value=1)
             total_urikake_amount: float = 0.0
             plan_details = []
 
             for i in range(int(num_plans)):
-                plan_number = st.text_input(f"計画/INVOICE番号 {i+1}")
+                plan_number = st.text_input(f"計画(国内)No /INVOICE(海外)No {i+1}")
                 urikake_date = st.date_input(f"売掛日 {i+1}")
                 urikake_amount_input = st.number_input(f"売掛額{i+1} JPY", placeholder="入力")
                 urikake_amount = float(urikake_amount_input)
