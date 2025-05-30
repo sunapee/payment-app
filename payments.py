@@ -192,8 +192,10 @@ with col3:
             profit_margin = math.floor((today_rate_eur - base_rate) * eur_amount + 0.0000001)
 
             # 入金額JPYをtext_inputで表示
-            st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance_eur", placeholder="自動計算されます") 
+            #st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance_eur", placeholder="自動計算されます") 
 
+            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_eur})"
+            st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance_eur", placeholder="自動計算されます")
             # 差益JPYをtext_inputで表示（自動更新されるように）
             st.text_input("差益 JPY", value=f"{profit_margin:,.0f}", key="profit_margin_advance_eur", placeholder="自動計算されます")
 
@@ -229,8 +231,9 @@ with col3:
             usd_amount = total_urikake_amount / base_rate  # 基準レートでUSDに換算
             profit_margin = math.floor((today_rate_usd - base_rate) * usd_amount + 0.0000001)
             # 入金額JPYをtext_inputで表示
-            st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
-            
+            #st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
+            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_usd})"
+            st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
             # 差益JPYをtext_inputで表示（自動更新されるように）
             st.text_input("差益 JPY", value=f"{profit_margin:,.0f}", key="profit_margin_urikake_usd", placeholder="自動更新されます")
 
@@ -257,8 +260,9 @@ with col3:
             eur_amount = total_urikake_amount / base_rate  # 基準レートでEURに換算
             profit_margin = math.floor((today_rate_eur - base_rate) * eur_amount + 0.0000001)
 
-            st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
-            
+            #st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
+            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_eur})"
+            st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
             # 差益JPYをtext_inputで表示（自動更新されるように）
             st.text_input("差益 JPY", value=f"{profit_margin:,.0f}", key="profit_margin_urikake_eur", placeholder="自動計算されます")
 
