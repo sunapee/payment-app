@@ -181,10 +181,15 @@ with col3:
 
             fee_amount = total_advance_amount_int + profit_margin_int - jpy_deposit_amount_int
 
+            
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
-            st.text_input("手数料 JPY", value=f"{fee_amount:,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
+
+            # 手数料の計算過程を表示
+            fee_label = f"手数料 JPY ({total_advance_amount_int:,.0f} + {profit_margin_int:,.0f} - {jpy_deposit_amount_int:,.0f} = {fee_amount:,.0f})"
+            st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_advance_usd", placeholder="自動計算されます")
+
             
         elif currency == "EUR":
             deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
@@ -220,7 +225,12 @@ with col3:
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
-            st.text_input("手数料 JPY", value=f"{fee_amount:,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
+
+            # 手数料の計算過程を表示
+            fee_label = f"手数料 JPY ({total_advance_amount_int:,.0f} + {profit_margin_int:,.0f} - {jpy_deposit_amount_int:,.0f} = {fee_amount:,.0f})"
+            st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_advance_eur", placeholder="自動計算されます")
+
+            
 
     elif method == "売掛":
         st.write(f"合計売掛額 JPY: {total_urikake_amount:,.0f}")
@@ -264,7 +274,11 @@ with col3:
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
-            st.text_input("手数料 JPY", value=f"{fee_amount:,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
+
+            # 手数料の計算過程を表示
+            fee_label = f"手数料 JPY ({total_urikake_amount_int:,.0f} + {profit_margin_int:,.0f} - {jpy_deposit_amount_int:,.0f} = {fee_amount:,.0f})"
+            st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_urikake_usd", placeholder="自動計算されます")
+            
         
         elif currency == "EUR":
             deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
@@ -299,4 +313,8 @@ with col3:
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
-            st.text_input("手数料 JPY", value=f"{fee_amount:,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
+
+            # 手数料の計算過程を表示
+            fee_label = f"手数料 JPY ({total_urikake_amount_int:,.0f} + {profit_margin_int:,.0f} - {jpy_deposit_amount_int:,.0f} = {fee_amount:,.0f})"
+            st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_urikake_eur", placeholder="自動計算されます")
+            
