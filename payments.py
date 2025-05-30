@@ -165,7 +165,7 @@ with col3:
             profit_margin = math.floor((today_rate_usd - base_rate) * usd_amount)
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance", placeholder="自動計算されます")
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
+            st.text_input("差益 JPY", value=f"{profit_margin:,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
 
             jpy_deposit_amount_int = int(jpy_deposit_amount)
             profit_margin_int = int(profit_margin)
@@ -176,7 +176,7 @@ with col3:
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
-            st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
+            st.text_input("手数料 JPY", value=f"{fee_amount:,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
             
         elif currency == "EUR":
             deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
@@ -192,7 +192,7 @@ with col3:
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance_eur", placeholder="自動計算されます") 
 
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_advance_eur", placeholder="自動計算されます")
+            st.text_input("差益 JPY", value=f"{profit_margin:,.0f}", key="profit_margin_advance_eur", placeholder="自動計算されます")
 
             # 前受入金・EUR
             jpy_deposit_amount_int = int(jpy_deposit_amount)
@@ -204,7 +204,7 @@ with col3:
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
-            st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
+            st.text_input("手数料 JPY", value=f"{fee_amount:,.0f}", key="fee_amount_advance_jpy", placeholder="自動計算されます")
 
     elif method == "売掛":
         st.write(f"合計売掛額 JPY: {total_urikake_amount:,.0f}")
@@ -229,7 +229,7 @@ with col3:
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_urikake_usd", placeholder="自動更新されます")
+            st.text_input("差益 JPY", value=f"{profit_margin:,.0f}", key="profit_margin_urikake_usd", placeholder="自動更新されます")
 
             # 表示用に整数化した値を使って手数料を計算
             jpy_deposit_amount_int = int(jpy_deposit_amount)
@@ -243,7 +243,7 @@ with col3:
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
-            st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
+            st.text_input("手数料 JPY", value=f"{fee_amount:,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
         
         elif currency == "EUR":
             deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0)
@@ -257,7 +257,7 @@ with col3:
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_urikake_eur", placeholder="自動計算されます")
+            st.text_input("差益 JPY", value=f"{profit_margin:,.0f}", key="profit_margin_urikake_eur", placeholder="自動計算されます")
 
             # 表示用に整数化した値を使って手数料を計算
             jpy_deposit_amount_int = int(jpy_deposit_amount)
@@ -272,4 +272,4 @@ with col3:
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
-            st.text_input("手数料 JPY", value=f"{abs(fee_amount):,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
+            st.text_input("手数料 JPY", value=f"{fee_amount:,.0f}", key="fee_amount_urikake_jpy", placeholder="自動計算されます")
