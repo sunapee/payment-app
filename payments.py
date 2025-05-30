@@ -162,7 +162,7 @@ with col3:
             # 103.00はコード上の基準レート
             base_rate = 103.00
             usd_amount = total_advance_amount / base_rate  # 基準レートでUSDに換算
-            profit_margin = math.floor((today_rate_usd - base_rate) * usd_amount)
+            profit_margin = math.floor((today_rate_usd - base_rate) * usd_amount + 0.0000001)
 
              # デバッグ表示を追加: profit_margin の計算結果を確認
             st.info(f"デバッグ: profit_margin (計算後) = {profit_margin}")
@@ -189,7 +189,7 @@ with col3:
             # 120.00はコード上の基準レート
             base_rate = 120.00
             eur_amount = total_advance_amount / base_rate  # 基準レートでEURに換算
-            profit_margin = math.floor((today_rate_eur - base_rate) * eur_amount)
+            profit_margin = math.floor((today_rate_eur - base_rate) * eur_amount + 0.0000001)
 
             # 入金額JPYをtext_inputで表示
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance_eur", placeholder="自動計算されます") 
@@ -227,7 +227,7 @@ with col3:
             # 差益の計算：(当日レート - 103) * USD額
             base_rate = 103.00
             usd_amount = total_urikake_amount / base_rate  # 基準レートでUSDに換算
-            profit_margin = math.floor((today_rate_usd - base_rate) * usd_amount)
+            profit_margin = math.floor((today_rate_usd - base_rate) * usd_amount + 0.0000001)
             # 入金額JPYをtext_inputで表示
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
             
@@ -255,7 +255,7 @@ with col3:
             # 差益の計算：(当日レート - 120) * EUR額
             base_rate = 120.00
             eur_amount = total_urikake_amount / base_rate  # 基準レートでEURに換算
-            profit_margin = math.floor((today_rate_eur - base_rate) * eur_amount)
+            profit_margin = math.floor((today_rate_eur - base_rate) * eur_amount + 0.0000001)
 
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
             
