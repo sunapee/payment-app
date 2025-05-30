@@ -165,7 +165,7 @@ with col3:
             profit_margin = (today_rate_usd - base_rate) * usd_amount
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance", placeholder="自動計算されます")
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            st.text_input("差益 JPY", value=f"{round(profit_margin):,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
+            st.text_input("差益 JPY", value=f"{int(profit_margin+ 1e-10):,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
             
             fee_amount = total_advance_amount + profit_margin - jpy_deposit_amount
             # 手数料が1以下なら0に設定
@@ -187,7 +187,7 @@ with col3:
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance_eur", placeholder="自動計算されます") 
 
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            st.text_input("差益 JPY", value=f"{round(profit_margin):,.0f}", key="profit_margin_advance_eur", placeholder="自動計算されます")
+            st.text_input("差益 JPY", value=f"{int(profit_margin+ 1e-10):,.0f}", key="profit_margin_advance_eur", placeholder="自動計算されます")
 
             fee_amount = total_advance_amount + profit_margin - jpy_deposit_amount
             # 手数料が1以下なら0に設定
@@ -218,7 +218,7 @@ with col3:
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            st.text_input("差益 JPY", value=f"{round(profit_margin):,.0f}", key="profit_margin_urikake_usd", placeholder="自動更新されます")
+            st.text_input("差益 JPY", value=f"{int(profit_margin + 1e-10):,.0f}", key="profit_margin_urikake_usd", placeholder="自動更新されます")
             
             # 手数料の計算：売掛額 + 差益 - 入金額
             fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
@@ -239,7 +239,7 @@ with col3:
             st.text_input("入金額 JPY", value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            st.text_input("差益 JPY", value=f"{round(profit_margin):,.0f}", key="profit_margin_urikake_eur", placeholder="自動計算されます")
+            st.text_input("差益 JPY", value=f"{int(profit_margin + 1e-10):,.0f}", key="profit_margin_urikake_eur", placeholder="自動計算されます")
             
             # 手数料の計算：売掛額 + 差益 - 入金額
             fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
