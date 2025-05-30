@@ -167,8 +167,7 @@ with col3:
             # 差益JPYをtext_inputで表示（自動更新されるように）
             st.text_input("差益 JPY", value=f"{int(profit_margin):,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
 
-            # 前受入金・USD
-　　　　　　 jpy_deposit_amount_int = int(jpy_deposit_amount)
+            jpy_deposit_amount_int = int(jpy_deposit_amount)
             profit_margin_int = int(profit_margin)
             total_advance_amount_int = int(total_advance_amount)
 
