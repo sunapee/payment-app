@@ -162,6 +162,7 @@ with col3:
             # 103.00はコード上の基準レート
             base_rate = 103.00
             usd_amount = total_advance_amount / base_rate  # 基準レートでUSDに換算
+            profit_margin_raw = (today_rate_usd - base_rate) * usd_amount  # floor前の値
             profit_margin = math.floor((today_rate_usd - base_rate) * usd_amount + 0.0000001)
 
             # 計算結果を小数点第2位まで表示
@@ -171,7 +172,8 @@ with col3:
             st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            st.text_input("差益 JPY", value=f"{profit_margin:,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
+            profit_label = f"差益 JPY (({today_rate_usd} - {base_rate}) × {usd_amount:,.2f} = {profit_margin_raw:,.2f})"
+            st.text_input(profit_label, value=f"{profit_margin:,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
 
             jpy_deposit_amount_int = int(jpy_deposit_amount)
             profit_margin_int = int(profit_margin)
