@@ -172,7 +172,7 @@ with col3:
             st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            profit_label = f"差益 JPY (({today_rate_usd} - {base_rate}) × {usd_amount:,.2f} = {profit_margin_raw:,.2f})"
+            profit_label = f"差益 JPY (({today_rate_usd:.2f} - {base_rate:.2f}) × {usd_amount:,.2f} = {profit_margin_raw:,.2f})"
             st.text_input(profit_label, value=f"{profit_margin:,.0f}", key="profit_margin_advance_usd", placeholder="自動計算されます")
 
             jpy_deposit_amount_int = int(jpy_deposit_amount)
@@ -212,7 +212,7 @@ with col3:
             
 
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            profit_label = f"差益 JPY (({today_rate_eur} - {base_rate}) × {eur_amount:,.2f} = {profit_margin_raw:,.2f})"
+            profit_label = f"差益 JPY (({today_rate_eur:.2f} - {base_rate:.2f}) × {eur_amount:,.2f} = {profit_margin_raw:,.2f})"
             st.text_input(profit_label, value=f"{profit_margin:,.0f}", key="profit_margin_advance_eur", placeholder="自動計算されます")
             
             # 前受入金・EUR
@@ -259,7 +259,7 @@ with col3:
             st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            profit_label = f"差益 JPY (({today_rate_usd} - {base_rate}) × {usd_amount:,.2f} = {profit_margin_raw:,.2f})"
+            profit_label = f"差益 JPY (({today_rate_usd:.2f} - {base_rate:.2f}) × {usd_amount:,.2f} = {profit_margin_raw:,.2f})"
             st.text_input(profit_label, value=f"{profit_margin:,.0f}", key="profit_margin_urikake_usd", placeholder="自動更新されます")
             
             # 表示用に整数化した値を使って手数料を計算
@@ -297,7 +297,7 @@ with col3:
             st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
-            profit_label = f"差益 JPY (({today_rate_eur} - {base_rate}) × {eur_amount:,.2f} = {profit_margin_raw:,.2f})"
+            profit_label = f"差益 JPY (({today_rate_eur:.2f} - {base_rate:.2f}) × {eur_amount:,.2f} = {profit_margin_raw:,.2f})"
             st.text_input(profit_label, value=f"{profit_margin:,.0f}", key="profit_margin_urikake_eur", placeholder="自動計算されます")
 
             # 表示用に整数化した値を使って手数料を計算
