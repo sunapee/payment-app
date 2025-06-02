@@ -167,7 +167,7 @@ with col3:
 
             # 計算結果を小数点第2位まで表示
             calculated_amount = deposit_amount * today_rate_usd
-            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_usd} = {calculated_amount:,.2f})"
+            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_usd:.2f} = {calculated_amount:,.2f})"
 
             st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance", placeholder="自動計算されます")
             
@@ -206,7 +206,7 @@ with col3:
             
             # 計算結果を小数点第2位まで表示
             calculated_amount = deposit_amount * today_rate_eur
-            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_eur} = {calculated_amount:,.2f})"
+            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_eur:.2f} = {calculated_amount:,.2f})"
            
             st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance_eur", placeholder="自動計算されます")
             
@@ -255,7 +255,7 @@ with col3:
             # 入金額JPYをtext_inputで表示
             # 計算結果を小数点第2位まで表示
             calculated_amount = deposit_amount * today_rate_usd
-            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_usd} = {calculated_amount:,.2f})"
+            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_usd:.2f} = {calculated_amount:,.2f})"
             st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
@@ -292,7 +292,7 @@ with col3:
 
             # 計算結果を小数点第2位まで表示
             calculated_amount = deposit_amount * today_rate_eur
-            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_eur} = {calculated_amount:,.2f})"
+            deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_eur:.2f} = {calculated_amount:,.2f})"
             
             st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_eur", placeholder="自動計算されます")
             
