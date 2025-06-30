@@ -139,6 +139,15 @@
             break-inside: avoid !important;
         }
 
+     /* Main container adjustments */
+        .stMainBlockContainer,
+        .reportview-container .main .block-container {
+            padding: 0.1rem !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+            height: auto !important;
+        }
+     
      /* Remove transform that causes blank page */
         .stApp {
             transform: none !important;
@@ -156,8 +165,9 @@
         /* Compact header spacing */
         .stApp h1 {
             font-size: 1rem !important;
-            margin-top: 0.1rem !important;
-            margin-bottom: 0.2rem !important;
+            margin-top: 0rem !important;
+            margin-bottom: 0.1rem !important;
+            padding-bottom: 0 !important;
         }
         
         /* Compact subheader spacing */
@@ -167,6 +177,13 @@
             margin-bottom: 0.2rem !important;
         }
 
+        /* Reduce column spacing and bring content up */
+        .stColumnContainer {
+            margin-top: 0 !important;
+            margin-bottom: 0.1rem !important;
+            gap: 0.3rem !important;
+        }
+     
 /* Hide unnecessary elements for print */
         [data-testid="stToolbar"],
         [data-testid="stDecoration"],
