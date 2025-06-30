@@ -292,7 +292,7 @@
         
         /* Ensure content fits */
         body {
-            zoom: 0.85;
+            zoom: 0.80;
         }
 
      /* 特定のStreamlit内部クラスの余白をリセット */
