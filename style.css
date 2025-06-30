@@ -65,6 +65,18 @@
         font-weight: bold;
     }
 
+    /* Header styling - make "入金伝票" smaller */
+    .stApp h1 {
+        font-size: 1.3rem !important;  /* Smaller than default */
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    /* Alternative selector for headers */
+    [data-testid="stHeader"] h1 {
+        font-size: 1.3rem !important;
+    }
+
     /* Sidebar styling */
     .css-1aumxhk {  
         background-color: #f4f6f7;
