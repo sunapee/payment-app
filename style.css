@@ -169,6 +169,33 @@
         padding-bottom: 0 !important;
     }
 
+
+    /* 最初の要素コンテナの余白を強制的に削除 */
+    [data-testid="element-container"]:first-child,
+    .element-container:first-child,
+    [data-testid="stAppViewContainer"] > div:first-child,
+    .stApp > div:first-child > div:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* ブロックコンテナの最初の子要素 */
+    [data-testid="stAppViewBlockContainer"] > div:first-child,
+    .block-container > div:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* 垂直スペースを作るStreamlit要素をリセット */
+    .stVerticalBlock,
+    [data-testid="stVerticalBlock"],
+    .css-1r6slb0,
+    .css-1kyxreq {
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0.1rem !important;
+    }
+
      /* タイトルと見出しの余白を最小化 */
     .title {
         font-size: 1.1rem !important;
