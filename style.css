@@ -182,8 +182,8 @@
 
     /* セクションヘッダーの余白調整 - PRINT ONLY */
     .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
-        margin-top: 0.3rem !important;
-        margin-bottom: 0.2rem !important;
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.4rem !important;
         font-size: 0.9rem !important;
         font-weight: bold !important;
     }
