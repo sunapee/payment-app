@@ -124,5 +124,93 @@
     .stSpinner > div {
         border-color: #3498db transparent #3498db transparent !important;
     }
-    
 
+
+    /* Print styles for single page layout */
+    @media print {
+        /* Remove page breaks */
+        * {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+        
+        /* Scale down content to fit on one page */
+        .stApp {
+            transform: scale(0.9) !important;
+            transform-origin: top left !important;
+            width: 125% !important;
+        }
+        
+        /* Reduce margins and padding */
+        .reportview-container .main .block-container {
+            padding: 0.5rem !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+        }
+        
+        /* Compact title spacing */
+        .title {
+            font-size: 1.4rem !important;
+            margin-bottom: 0.5rem !important;
+            margin-top: 0 !important;
+        }
+        
+        /* Compact header spacing */
+        .stApp h1 {
+            font-size: 1.1rem !important;
+            margin-top: 0.2rem !important;
+            margin-bottom: 0.3rem !important;
+        }
+        
+        /* Compact subheader spacing */
+        .stApp h2, .stApp h3 {
+            font-size: 1rem !important;
+            margin-top: 0.2rem !important;
+            margin-bottom: 0.3rem !important;
+        }
+        
+        /* Reduce column spacing */
+        .stColumnContainer {
+            margin-bottom: 0.3rem !important;
+        }
+        
+        /* Compact input fields */
+        .stTextInput, .stNumberInput, .stSelectbox, .stDateInput {
+            margin-bottom: 0.3rem !important;
+        }
+        
+        /* Reduce font sizes for print */
+        .stTextInput > div > div > input, 
+        .stNumberInput > div > div > input, 
+        .stSelectbox > div > div > div,
+        .stDateInput > div > div > input {
+            font-size: 12px !important;
+            padding: 6px 8px !important;
+            height: 30px !important;
+        }
+        
+        /* Compact text display */
+        .stMarkdown > div > p {
+            font-size: 12px !important;
+            margin-bottom: 0.2rem !important;
+        }
+        
+        /* Hide unnecessary elements for print */
+        [data-testid="stToolbar"],
+        [data-testid="stDecoration"],
+        .stDeployButton {
+            display: none !important;
+        }
+        
+        /* Force single page */
+        @page {
+            size: A4;
+            margin: 0.5in !important;
+        }
+        
+        /* Prevent page breaks in columns */
+        .stColumn {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+        }
+    }
