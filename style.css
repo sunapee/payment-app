@@ -78,14 +78,14 @@
 
     /* Header styling - make "入金伝票" smaller */
     .stApp h1 {
-        font-size: 1.1rem !important;  /* Smaller than default */
+        font-size: 1.5rem !important;  /* Smaller than default */
         margin-top: 0.5rem !important;
         margin-bottom: 0.5rem !important;
     }
 
     /* Alternative selector for headers */
     [data-testid="stHeader"] h1 {
-        font-size: 1.1rem !important;
+        font-size: 1.5rem !important;
     }
 
     /* Sidebar styling */
@@ -206,8 +206,8 @@
     /* ブロックコンテナの最初の子要素 */
     [data-testid="stAppViewBlockContainer"] > div:first-child,
     .block-container > div:first-child {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
+        margin-top: 0.5 !important;
+        padding-top: 0.5 !important;
     }
 
     /* 垂直スペースを作るStreamlit要素をリセット */
@@ -215,9 +215,9 @@
     [data-testid="stVerticalBlock"],
     .css-1r6slb0,
     .css-1kyxreq {
-        margin: 0 !important;
-        padding: 0 !important;
-        gap: 0.1rem !important;
+        margin: 0.5 !important;
+        padding: 0.5 !important;
+        gap: 0.5rem !important;
     }
 
      /* タイトルと見出しの余白を最小化 */
@@ -230,8 +230,8 @@
 
     .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
         font-size: 0.9rem !important;
-        margin: 0 !important;
-        padding: 0 !important;
+        margin: 0.2 !important;
+        padding: 0.2 !important;
         line-height: 1.1 !important;
     }
 
