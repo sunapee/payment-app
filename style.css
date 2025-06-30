@@ -157,8 +157,8 @@
     .stApp > div,
     [data-testid="stAppViewContainer"],
     [data-testid="stAppViewBlockContainer"] {
-        padding: 0 !important;
-        margin: 0 !important;
+        padding: 0.2 !important;
+        margin: 0.2 !important;
         max-width: 100% !important;
         height: auto !important;
         transform: none !important;
@@ -174,10 +174,10 @@
     .stColumnContainer,
     .element-container,
     [data-testid="element-container"] {
-        margin-top: 0 !important;
+        margin-top: 0.2 !important;
         margin-bottom: 0.1rem !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
+        padding-top: 0.2 !important;
+        padding-bottom: 0.2 !important;
     }
 
     /* セクションヘッダーの余白調整 - PRINT ONLY */
@@ -199,8 +199,8 @@
     .element-container:first-child,
     [data-testid="stAppViewContainer"] > div:first-child,
     .stApp > div:first-child > div:first-child {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
+        margin-top: 0.2 !important;
+        padding-top: 0.2 !important;
     }
 
     /* ブロックコンテナの最初の子要素 */
@@ -223,8 +223,8 @@
      /* タイトルと見出しの余白を最小化 */
     .title {
         font-size: 1.1rem !important;
-        margin: 0 !important;
-        padding: 0 !important;
+        margin: 0.2 !important;
+        padding: 0.2 !important;
         line-height: 1.2 !important;
     }
 
