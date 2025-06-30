@@ -67,14 +67,14 @@
 
     /* Header styling - make "入金伝票" smaller */
     .stApp h1 {
-        font-size: 1.1rem !important;  /* Smaller than default */
+        font-size: 1rem !important;  /* Smaller than default */
         margin-top: 0.5rem !important;
         margin-bottom: 0.5rem !important;
     }
 
     /* Alternative selector for headers */
     [data-testid="stHeader"] h1 {
-        font-size: 1.1rem !important;
+        font-size: 1rem !important;
     }
 
     /* Sidebar styling */
@@ -130,7 +130,7 @@
         /* Force single page */
         @page {
             size: A4 portrait;
-            margin: 0.3in !important;
+            margin: 0.2in !important;
         }
         
         /* Remove page breaks */
@@ -138,6 +138,53 @@
             page-break-inside: avoid !important;
             break-inside: avoid !important;
         }
+
+     /* Main container adjustments - より強力なリセット */
+    .stMainBlockContainer,
+    .reportview-container .main .block-container,
+    .stApp,
+    .stApp > div,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stAppViewBlockContainer"] {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        height: auto !important;
+        transform: none !important;
+    }
+
+    /* すべてのStreamlit要素の余白を削除 */
+    .stMarkdown,
+    .stTextInput,
+    .stNumberInput,
+    .stSelectbox,
+    .stDateInput,
+    .stColumn,
+    .stColumnContainer,
+    .element-container,
+    [data-testid="element-container"] {
+        margin-top: 0 !important;
+        margin-bottom: 0.1rem !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+     /* タイトルと見出しの余白を最小化 */
+    .title {
+        font-size: 1.1rem !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.2 !important;
+    }
+
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
+        font-size: 0.9rem !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.1 !important;
+    }
+
+     
 
      /* Main container adjustments */
         .stMainBlockContainer,
