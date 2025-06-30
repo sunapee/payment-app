@@ -279,7 +279,7 @@
         .stColumnContainer {
             margin-top: 0 !important;
             margin-bottom: 0.1rem !important;
-            gap: 0.3rem !important;
+            gap: 0.2rem !important;
         }
      
 /* Hide unnecessary elements for print */
@@ -294,4 +294,13 @@
         body {
             zoom: 0.85;
         }
+
+     /* 特定のStreamlit内部クラスの余白をリセット */
+    .css-1d391kg,
+    .css-12oz5g7,
+    .css-1v0mbdj,
+    .block-container {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
     }
