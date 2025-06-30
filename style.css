@@ -49,10 +49,21 @@
 
     /* Remove default white spaces */
     .stColumnContainer {
-        margin-bottom: 10px !important;
+        margin-bottom: 15px !important;
     }
     .stColumn > div {
-        margin-bottom: 10px !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* Section headers spacing for screen display */
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.8rem !important;
+    }
+
+/* Input field containers spacing for screen display */
+.stTextInput, .stNumberInput, .stSelectbox, .stDateInput {
+    margin-bottom: 1rem !important;
     }
 
     /* Main title styling */
@@ -67,14 +78,14 @@
 
     /* Header styling - make "入金伝票" smaller */
     .stApp h1 {
-        font-size: 1rem !important;  /* Smaller than default */
+        font-size: 1.1rem !important;  /* Smaller than default */
         margin-top: 0.5rem !important;
         margin-bottom: 0.5rem !important;
     }
 
     /* Alternative selector for headers */
     [data-testid="stHeader"] h1 {
-        font-size: 1rem !important;
+        font-size: 1.1rem !important;
     }
 
     /* Sidebar styling */
@@ -169,6 +180,19 @@
         padding-bottom: 0 !important;
     }
 
+    /* セクションヘッダーの余白調整 - PRINT ONLY */
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        margin-top: 0.3rem !important;
+        margin-bottom: 0.2rem !important;
+        font-size: 0.9rem !important;
+        font-weight: bold !important;
+    }
+
+     /* 入力フィールドのラベルとの間隔 - PRINT ONLY */
+    .stTextInput label, .stNumberInput label, .stSelectbox label, .stDateInput label {
+        margin-bottom: 0.1rem !important;
+        font-size: 0.8rem !important;
+    }
 
     /* 最初の要素コンテナの余白を強制的に削除 */
     [data-testid="element-container"]:first-child,
