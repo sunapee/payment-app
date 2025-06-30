@@ -43,8 +43,8 @@
     /* Wide layout and container styling */
     .reportview-container .main .block-container {
         max-width: 1600px;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+        padding-top: 0rem;
+        padding-bottom: 0rem;
     }
 
     /* Remove default white spaces */
