@@ -100,7 +100,7 @@ with col2:
                     eur_amount = float(eur_amount_input) if eur_amount_input else 0.0
                 except ValueError:
                     eur_amount = 0.0
-                advance_amount = eur_amount * 120.00    
+                #advance_amount = eur_amount * 120.00    
                 st.write(f"前受額{i+1} EUR: {eur_amount:,.2f}")
                 st.write(f"JPY換算: {advance_amount:,.0f}")
 
@@ -139,13 +139,13 @@ with col2:
                 urikake_date = st.date_input(f"売掛日 {i+1}")
 
                 if currency == "USD":
-                    usd_amount_input = st.text_input(f"売掛額{i+1} USD", placeholder="入力")
+                    usd_amount_input = st.number_input(f"売掛額{i+1} USD", value=0.0, step=0.01, format="%.2f")
                     usd_amount = float(usd_amount_input)
                     urikake_amount = math.floor(usd_amount * 103.00)
                     st.write(f"売掛額{i+1} USD: {usd_amount:,.2f}")
                     st.write(f"JPY換算: {urikake_amount:,.0f}")
                 elif currency == "EUR":
-                    eur_amount_input = st.  text_input(f"売掛額{i+1} EUR", placeholder="入力")
+                    eur_amount_input = st.number_input(f"売掛額{i+1} EUR", value=0.0, step=0.01, format="%.2f")
                     eur_amount = float(eur_amount_input)    
                     #urikake_amount = math.floor(eur_amount * 120.00)
                     urikake_amount = eur_amount * 120.00
@@ -178,8 +178,13 @@ with col3:
                 fee_amount = 0
             st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
         elif currency == "USD":
-            deposit_amount = st.number_input(f"入金額 {currency}", min_value=0.0,key="deposit_usd_advance")
-            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0,key="deposit_usd_advance")
+            deposit_amount = st.number_input(
+                f"入金額 {currency}",
+                min_value=0.0,
+                key="deposit_usd_advance",
+                step=0.01,
+                format="%.2f"
+            )
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
             # 差益の計算：(当日レート - 103) * USD額
             # 103.00はコード上の基準レート
@@ -215,7 +220,12 @@ with col3:
 
             
         elif currency == "EUR":
-            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0)
+            deposit_amount = st.number_input(
+                f"入金額 {currency}",
+                min_value=0.0,
+                step=0.01,
+                format="%.2f"
+            )
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
 
             # 差益の計算：(当日レート - 120) * EUR額
@@ -273,7 +283,12 @@ with col3:
             st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
         
         if currency == "USD":
-            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0)
+            deposit_amount = st.number_input(
+                f"入金額 {currency}",
+                min_value=0.0,
+                step=0.01,
+                format="%.2f"
+            )
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
 
             # 差益の計算：(当日レート - 103) * USD額
@@ -310,7 +325,12 @@ with col3:
             
         
         elif currency == "EUR":
-            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0)
+            deposit_amount = st.number_input(
+                f"入金額 {currency}",
+                min_value=0.0,
+                step=0.01,
+                format="%.2f"
+            )
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
 
             # 差益の計算：(当日レート - 120) * EUR額
