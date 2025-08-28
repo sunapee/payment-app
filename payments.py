@@ -38,7 +38,7 @@ def load_css():
 load_css()
 
 # Custom title with added styling
-st.markdown('<div class="title">入金伝票作成システム</div>', unsafe_allow_html=True)
+#st.markdown('<div class="title">入金伝票作成システム</div>', unsafe_allow_html=True)
 
 # メインコンテンツ
 st.header("入金伝票")
