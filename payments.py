@@ -7,7 +7,6 @@ import csv
 from datetime import datetime
 
 st.set_page_config(
-    page_title="入金伝票作成システム",
     page_icon="💰",  # グラフ上昇の絵文字をアイコンとして使用
 )
 
@@ -38,10 +37,6 @@ def load_css():
 
 load_css()
 
-
-
-# Custom title with added styling
-st.markdown('<div class="title">入金伝票作成システム</div>', unsafe_allow_html=True)
 
 # メインコンテンツ
 st.header("入金伝票")
