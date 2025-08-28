@@ -70,9 +70,15 @@ with col2:
         for i in range(int(num_plans)):
             plan_number = st.text_input(f"計画番号 {i+1}")
             if currency == "JPY":
-                advance_amount_input = st.number_input(f"前受額{i+1} JPY", placeholder="入力",key=f"advance_jpy_{i}")
+                advance_amount_input = st.text_input(f"前受額{i+1} JPY", placeholder="入力",key=f"advance_jpy_{i}")
+
+                # 入力値を数値に変換（空欄や不正値は0扱い）
+            try:
+                advance_amount = float(advance_amount_input) if advance_amount_input else 0.0
+            except ValueError:
+                advance_amount = 0.0
                 
-                advance_amount = float(advance_amount_input)
+                #advance_amount = float(advance_amount_input)
                 st.write(f"前受額{i+1} JPY: {advance_amount:,.0f}")
                 
             elif currency == "USD":
