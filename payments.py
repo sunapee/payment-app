@@ -103,7 +103,14 @@ with col2:
             for i in range(int(num_plans)):
                 plan_number = st.text_input(f"計画(国内)No /INVOICE(海外)No {i+1}")
                 urikake_date = st.date_input(f"売掛日 {i+1}")
-                urikake_amount_input = st.number_input(f"売掛額{i+1} JPY", placeholder="入力")
+                urikake_amount_input = st.number_input(
+                f"売掛額{i+1} JPY", 
+                min_value=0.0,
+                value=0.0,
+                step=1.0,
+                placeholder="金額を入力してください"
+                }
+                #urikake_amount_input = st.number_input(f"売掛額{i+1} JPY", placeholder="入力")
                 urikake_amount = float(urikake_amount_input)
                 st.write(f"売掛額{i+1} JPY: {urikake_amount:,.0f}")
 
