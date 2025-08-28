@@ -49,57 +49,6 @@ col1, col2, col3 = st.columns([1,1,1])
 
 with col1:
     st.subheader("基本情報")
-    import streamlit as st
-import pandas as pd
-import time
-import os   
-import math
-import csv
-from datetime import datetime
-
-st.set_page_config(
-    page_title="入金伝票作成システム",
-    page_icon="💰",  # グラフ上昇の絵文字をアイコンとして使用
-)
-
-def check_password():
-    def password_entered():
-        if st.session_state["password"] == "4649":
-            st.session_state["password_correct"] = True
-        else:
-            st.session_state["password_correct"] = False
-
-    if "password_correct" not in st.session_state:
-        st.session_state["password_correct"] = False
-
-    if not st.session_state["password_correct"]:
-        st.image("ncc_logo.jpg", use_container_width=True)
-        st.text_input("パスワードを入力してください", type="password", on_change=password_entered, key="password")
-        st.stop()
-
-check_password()
-
-def load_css():
-    css_file = os.path.join(os.path.dirname(__file__), 'style.css')
-    if os.path.exists(css_file):
-        with open(css_file, encoding='utf-8') as f:
-            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-    else:
-        st.error("style.cssファイルが見つかりません。")
-
-load_css()
-
-
-
-# Custom title with added styling
-st.markdown('<div class="title">入金伝票作成システム</div>', unsafe_allow_html=True)
-
-# メインコンテンツ
-st.header("入金伝票")
-col1, col2, col3 = st.columns([1,1,1])
-
-with col1:
-    st.subheader("基本情報")
     
     method = st.selectbox("入金タイプ", ["前受入金", "売掛"])
     currency = st.selectbox("通貨", ["JPY", "USD", "EUR"])
