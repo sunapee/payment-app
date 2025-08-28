@@ -49,6 +49,57 @@ col1, col2, col3 = st.columns([1,1,1])
 
 with col1:
     st.subheader("基本情報")
+    import streamlit as st
+import pandas as pd
+import time
+import os   
+import math
+import csv
+from datetime import datetime
+
+st.set_page_config(
+    page_title="入金伝票作成システム",
+    page_icon="💰",  # グラフ上昇の絵文字をアイコンとして使用
+)
+
+def check_password():
+    def password_entered():
+        if st.session_state["password"] == "4649":
+            st.session_state["password_correct"] = True
+        else:
+            st.session_state["password_correct"] = False
+
+    if "password_correct" not in st.session_state:
+        st.session_state["password_correct"] = False
+
+    if not st.session_state["password_correct"]:
+        st.image("ncc_logo.jpg", use_container_width=True)
+        st.text_input("パスワードを入力してください", type="password", on_change=password_entered, key="password")
+        st.stop()
+
+check_password()
+
+def load_css():
+    css_file = os.path.join(os.path.dirname(__file__), 'style.css')
+    if os.path.exists(css_file):
+        with open(css_file, encoding='utf-8') as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    else:
+        st.error("style.cssファイルが見つかりません。")
+
+load_css()
+
+
+
+# Custom title with added styling
+st.markdown('<div class="title">入金伝票作成システム</div>', unsafe_allow_html=True)
+
+# メインコンテンツ
+st.header("入金伝票")
+col1, col2, col3 = st.columns([1,1,1])
+
+with col1:
+    st.subheader("基本情報")
     
     method = st.selectbox("入金タイプ", ["前受入金", "売掛"])
     currency = st.selectbox("通貨", ["JPY", "USD", "EUR"])
@@ -100,7 +151,7 @@ with col2:
                     eur_amount = float(eur_amount_input) if eur_amount_input else 0.0
                 except ValueError:
                     eur_amount = 0.0
-                #advance_amount = eur_amount * 120.00    
+                advance_amount = eur_amount * 120.00    
                 st.write(f"前受額{i+1} EUR: {eur_amount:,.2f}")
                 st.write(f"JPY換算: {advance_amount:,.0f}")
 
@@ -139,13 +190,13 @@ with col2:
                 urikake_date = st.date_input(f"売掛日 {i+1}")
 
                 if currency == "USD":
-                    usd_amount_input = st.number_input(f"売掛額{i+1} USD", value=0.0, step=0.01, format="%.2f")
+                    usd_amount_input = st.text_input(f"売掛額{i+1} USD", placeholder="入力")
                     usd_amount = float(usd_amount_input)
                     urikake_amount = math.floor(usd_amount * 103.00)
                     st.write(f"売掛額{i+1} USD: {usd_amount:,.2f}")
                     st.write(f"JPY換算: {urikake_amount:,.0f}")
                 elif currency == "EUR":
-                    eur_amount_input = st.number_input(f"売掛額{i+1} EUR", value=0.0, step=0.01, format="%.2f")
+                    eur_amount_input = st.  text_input(f"売掛額{i+1} EUR", placeholder="入力")
                     eur_amount = float(eur_amount_input)    
                     #urikake_amount = math.floor(eur_amount * 120.00)
                     urikake_amount = eur_amount * 120.00
@@ -165,26 +216,15 @@ with col3:
         st.write(f"合計前受額 JPY: {total_advance_amount:,.0f}")
         
         if currency == "JPY":
-            deposit_amount = st.number_input(
-                "入金額 JPY",
-                min_value=0.0,
-                max_value=float(total_advance_amount),
-                step=1.0,
-                format="%.0f"
-            )
+            deposit_amount = st.text_input("入金額 JPY", min_value=0.0, max_value=float(total_advance_amount))
+            # 入金額JPYをtext_inputで表示
             st.write(f"入金額 JPY {deposit_amount:,.0f}")
             fee_amount = total_advance_amount - deposit_amount
             if abs(fee_amount) <= 1:
                 fee_amount = 0
             st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
         elif currency == "USD":
-            deposit_amount = st.number_input(
-                f"入金額 {currency}",
-                min_value=0.0,
-                key="deposit_usd_advance",
-                step=0.01,
-                format="%.2f"
-            )
+            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0,key="deposit_usd_advance")
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
             # 差益の計算：(当日レート - 103) * USD額
             # 103.00はコード上の基準レート
@@ -220,12 +260,7 @@ with col3:
 
             
         elif currency == "EUR":
-            deposit_amount = st.number_input(
-                f"入金額 {currency}",
-                min_value=0.0,
-                step=0.01,
-                format="%.2f"
-            )
+            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0)
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
 
             # 差益の計算：(当日レート - 120) * EUR額
@@ -269,13 +304,7 @@ with col3:
         st.write(f"合計売掛額 JPY: {total_urikake_amount:,.0f}")
 
         if currency == "JPY":
-            deposit_amount = st.number_input(
-                "入金額 JPY",
-                min_value=0.0,
-                max_value=float(total_urikake_amount),
-                step=1.0,
-                format="%.0f"
-            )
+            deposit_amount = st.text_input("入金額 JPY", min_value=0.0, max_value=float(total_urikake_amount))
             fee_amount = total_urikake_amount - deposit_amount
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
@@ -283,12 +312,7 @@ with col3:
             st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
         
         if currency == "USD":
-            deposit_amount = st.number_input(
-                f"入金額 {currency}",
-                min_value=0.0,
-                step=0.01,
-                format="%.2f"
-            )
+            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0)
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
 
             # 差益の計算：(当日レート - 103) * USD額
@@ -325,12 +349,7 @@ with col3:
             
         
         elif currency == "EUR":
-            deposit_amount = st.number_input(
-                f"入金額 {currency}",
-                min_value=0.0,
-                step=0.01,
-                format="%.2f"
-            )
+            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0)
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
 
             # 差益の計算：(当日レート - 120) * EUR額
