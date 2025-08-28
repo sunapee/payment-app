@@ -7,6 +7,7 @@ import csv
 from datetime import datetime
 
 st.set_page_config(
+    #page_title="入金伝票作成システム",
     page_icon="💰",  # グラフ上昇の絵文字をアイコンとして使用
 )
 
@@ -21,7 +22,7 @@ def check_password():
         st.session_state["password_correct"] = False
 
     if not st.session_state["password_correct"]:
-        st.image("ncc_logo.jpg", use_container_width=True)
+        #st.image("ncc_logo.jpg", use_container_width=True)
         st.text_input("パスワードを入力してください", type="password", on_change=password_entered, key="password")
         st.stop()
 
@@ -37,6 +38,8 @@ def load_css():
 
 load_css()
 
+# Custom title with added styling
+st.markdown('<div class="title">入金伝票作成システム</div>', unsafe_allow_html=True)
 
 # メインコンテンツ
 st.header("入金伝票")
@@ -50,10 +53,33 @@ with col1:
     paytype = st.selectbox("一部or全部", ["全部", "一部"])
     customer = st.text_input("顧客名")
 
+    # レート変数の初期化
+    today_rate_usd = 103.0
+    today_rate_eur = 120.0
+
     if (method == "売掛" or method == "前受入金") and currency == "USD":
-        today_rate_usd = st.number_input("今日のレート (USD)", placeholder="入力",key="rate_usd")
+        today_rate_usd_input = st.text_input("今日のレート (USD)", placeholder="入力",key="rate_usd")
+        # 入力値の検証と変換
+        try:
+            today_rate_usd = float(today_rate_usd_input) if today_rate_usd_input else 103.0
+            if today_rate_usd <= 0:
+                st.error("レートは0より大きい値を入力してください")
+                today_rate_usd = 103.0  # デフォルト値
+        except ValueError:
+            st.error("有効な数値を入力してください")
+            today_rate_usd = 103.0  # デフォルト値
+            
     elif (method == "売掛" or method == "前受入金") and currency == "EUR":
-        today_rate_eur = st.number_input("今日のレート (EUR)", placeholder="入力",key="rate_eur")    
+        today_rate_eur_input = st.text_input("今日のレート (EUR)", placeholder="入力",key="rate_eur")
+        # 入力値の検証と変換
+        try:
+            today_rate_eur = float(today_rate_eur_input) if today_rate_eur_input else 120.0
+            if today_rate_eur <= 0:
+                st.error("レートは0より大きい値を入力してください")
+                today_rate_eur = 120.0  # デフォルト値
+        except ValueError:
+            st.error("有効な数値を入力してください")
+            today_rate_eur = 120.0  # デフォルト値    
 
 with col2:
     st.subheader("計画/Invoice")
@@ -73,7 +99,6 @@ with col2:
                 except ValueError:
                     advance_amount = 0.0
                 
-                #advance_amount = float(advance_amount_input)
                 st.write(f"前受額{i+1} JPY: {advance_amount:,.0f}")
                 
             elif currency == "USD":
@@ -84,7 +109,6 @@ with col2:
                 except ValueError:
                     usd_amount = 0.0
                 
-                #usd_amount = float(usd_amount_input)
                 advance_amount = usd_amount * 103.00
                 st.write(f"前受額{i+1} USD: {usd_amount:,.2f}")
                 st.write(f"JPY換算: {advance_amount:,.0f}")
@@ -114,8 +138,12 @@ with col2:
             for i in range(int(num_plans)):
                 plan_number = st.text_input(f"計画(国内)No /INVOICE(海外)No {i+1}")
                 urikake_date = st.date_input(f"売掛日 {i+1}")
-                urikake_amount_input = st.number_input(f"売掛額{i+1} JPY", placeholder="入力")
-                urikake_amount = float(urikake_amount_input)
+                urikake_amount_input = st.text_input(f"売掛額{i+1} JPY", placeholder="入力")
+                # 入力値を数値に変換（空欄や不正値は0扱い）
+                try:
+                    urikake_amount = float(urikake_amount_input) if urikake_amount_input else 0.0   
+                except ValueError:
+                    urikake_amount = 0.0
                 st.write(f"売掛額{i+1} JPY: {urikake_amount:,.0f}")
 
                 plan_details.append({
@@ -135,14 +163,19 @@ with col2:
 
                 if currency == "USD":
                     usd_amount_input = st.text_input(f"売掛額{i+1} USD", placeholder="入力")
-                    usd_amount = float(usd_amount_input)
+                    try:
+                        usd_amount = float(usd_amount_input) if usd_amount_input else 0.0
+                    except ValueError:
+                        usd_amount = 0.0
                     urikake_amount = math.floor(usd_amount * 103.00)
                     st.write(f"売掛額{i+1} USD: {usd_amount:,.2f}")
                     st.write(f"JPY換算: {urikake_amount:,.0f}")
                 elif currency == "EUR":
-                    eur_amount_input = st.  text_input(f"売掛額{i+1} EUR", placeholder="入力")
-                    eur_amount = float(eur_amount_input)    
-                    #urikake_amount = math.floor(eur_amount * 120.00)
+                    eur_amount_input = st.text_input(f"売掛額{i+1} EUR", placeholder="入力")
+                    try:
+                        eur_amount = float(eur_amount_input) if eur_amount_input else 0.0
+                    except ValueError:
+                        eur_amount = 0.0
                     urikake_amount = eur_amount * 120.00
                     st.write(f"売掛額{i+1} EUR: {eur_amount:,.2f}")
                     st.write(f"JPY換算: {urikake_amount:,.0f}")
@@ -160,15 +193,42 @@ with col3:
         st.write(f"合計前受額 JPY: {total_advance_amount:,.0f}")
         
         if currency == "JPY":
-            deposit_amount = st.text_input("入金額 JPY", min_value=0.0, max_value=float(total_advance_amount))
-            # 入金額JPYをtext_inputで表示
-            st.write(f"入金額 JPY {deposit_amount:,.0f}")
+            # 修正: text_inputからmin_value, max_valueパラメータを削除し、検証を手動で行う
+            deposit_amount_input = st.text_input("入金額 JPY", placeholder="0以上の数値を入力")
+            
+            # 入力値の検証と変換
+            try:
+                deposit_amount = float(deposit_amount_input) if deposit_amount_input else 0.0
+                if deposit_amount < 0:
+                    st.error("入金額は0以上で入力してください")
+                    deposit_amount = 0.0
+                elif deposit_amount > total_advance_amount:
+                    st.error(f"入金額は{total_advance_amount:,.0f}以下で入力してください")
+                    deposit_amount = total_advance_amount
+            except ValueError:
+                st.error("有効な数値を入力してください")
+                deposit_amount = 0.0
+                
+            st.write(f"入金額 JPY: {deposit_amount:,.0f}")
             fee_amount = total_advance_amount - deposit_amount
             if abs(fee_amount) <= 1:
                 fee_amount = 0
             st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
+            
         elif currency == "USD":
-            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0,key="deposit_usd_advance")
+            # 修正: text_inputからmin_valueパラメータを削除
+            deposit_amount_input = st.text_input(f"入金額 {currency}", placeholder="0以上の数値を入力", key="deposit_usd_advance")
+            
+            # 入力値の検証と変換
+            try:
+                deposit_amount = float(deposit_amount_input) if deposit_amount_input else 0.0
+                if deposit_amount < 0:
+                    st.error("入金額は0以上で入力してください")
+                    deposit_amount = 0.0
+            except ValueError:
+                st.error("有効な数値を入力してください")
+                deposit_amount = 0.0
+                
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
             # 差益の計算：(当日レート - 103) * USD額
             # 103.00はコード上の基準レート
@@ -193,7 +253,6 @@ with col3:
 
             fee_amount = total_advance_amount_int + profit_margin_int - jpy_deposit_amount_int
 
-            
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
@@ -202,9 +261,20 @@ with col3:
             fee_label = f"手数料 JPY ({total_advance_amount_int:,.0f} + {profit_margin_int:,.0f} - {jpy_deposit_amount_int:,.0f} = {fee_amount:,.0f})"
             st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_advance_usd", placeholder="自動計算されます")
 
-            
         elif currency == "EUR":
-            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0)
+            # 修正: text_inputからmin_valueパラメータを削除
+            deposit_amount_input = st.text_input(f"入金額 {currency}", placeholder="0以上の数値を入力")
+            
+            # 入力値の検証と変換
+            try:
+                deposit_amount = float(deposit_amount_input) if deposit_amount_input else 0.0
+                if deposit_amount < 0:
+                    st.error("入金額は0以上で入力してください")
+                    deposit_amount = 0.0
+            except ValueError:
+                st.error("有効な数値を入力してください")
+                deposit_amount = 0.0
+                
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
 
             # 差益の計算：(当日レート - 120) * EUR額
@@ -214,14 +284,11 @@ with col3:
             profit_margin_raw = (today_rate_eur - base_rate) * eur_amount  # floor前の値
             profit_margin = math.floor((today_rate_eur - base_rate) * eur_amount + 0.0000001)
 
-            # 入金額JPYをtext_inputで表示
-            
             # 計算結果を小数点第2位まで表示
             calculated_amount = deposit_amount * today_rate_eur
             deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_eur:.2f} = {calculated_amount:,.2f})"
            
             st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_advance_eur", placeholder="自動計算されます")
-            
 
             # 差益JPYをtext_inputで表示（自動更新されるように）
             profit_label = f"差益 JPY (({today_rate_eur:.2f} - {base_rate:.2f}) × {eur_amount:,.2f} = {profit_margin_raw:,.2f})"
@@ -242,21 +309,46 @@ with col3:
             fee_label = f"手数料 JPY ({total_advance_amount_int:,.0f} + {profit_margin_int:,.0f} - {jpy_deposit_amount_int:,.0f} = {fee_amount:,.0f})"
             st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_advance_eur", placeholder="自動計算されます")
 
-            
-
     elif method == "売掛":
         st.write(f"合計売掛額 JPY: {total_urikake_amount:,.0f}")
 
         if currency == "JPY":
-            deposit_amount = st.text_input("入金額 JPY", min_value=0.0, max_value=float(total_urikake_amount))
+            # 修正: text_inputからmin_value, max_valueパラメータを削除し、検証を手動で行う
+            deposit_amount_input = st.text_input("入金額 JPY", placeholder="0以上の数値を入力")
+            
+            # 入力値の検証と変換
+            try:
+                deposit_amount = float(deposit_amount_input) if deposit_amount_input else 0.0
+                if deposit_amount < 0:
+                    st.error("入金額は0以上で入力してください")
+                    deposit_amount = 0.0
+                elif deposit_amount > total_urikake_amount:
+                    st.error(f"入金額は{total_urikake_amount:,.0f}以下で入力してください")
+                    deposit_amount = total_urikake_amount
+            except ValueError:
+                st.error("有効な数値を入力してください")
+                deposit_amount = 0.0
+                
             fee_amount = total_urikake_amount - deposit_amount
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
             st.write(f"手数料 JPY: {abs(fee_amount):,.0f}")
         
-        if currency == "USD":
-            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0)
+        elif currency == "USD":
+            # 修正: text_inputからmin_valueパラメータを削除
+            deposit_amount_input = st.text_input(f"入金額 {currency}", placeholder="0以上の数値を入力")
+            
+            # 入力値の検証と変換
+            try:
+                deposit_amount = float(deposit_amount_input) if deposit_amount_input else 0.0
+                if deposit_amount < 0:
+                    st.error("入金額は0以上で入力してください")
+                    deposit_amount = 0.0
+            except ValueError:
+                st.error("有効な数値を入力してください")
+                deposit_amount = 0.0
+                
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
 
             # 差益の計算：(当日レート - 103) * USD額
@@ -281,8 +373,6 @@ with col3:
 
             # 整数で手数料を計算
             fee_amount = total_urikake_amount_int + profit_margin_int - jpy_deposit_amount_int
-            # 手数料の計算：売掛額 + 差益 - 入金額
-            #fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
@@ -291,9 +381,20 @@ with col3:
             fee_label = f"手数料 JPY ({total_urikake_amount_int:,.0f} + {profit_margin_int:,.0f} - {jpy_deposit_amount_int:,.0f} = {fee_amount:,.0f})"
             st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_urikake_usd", placeholder="自動計算されます")
             
-        
         elif currency == "EUR":
-            deposit_amount = st.text_input(f"入金額 {currency}", min_value=0.0)
+            # 修正: text_inputからmin_valueパラメータを削除
+            deposit_amount_input = st.text_input(f"入金額 {currency}", placeholder="0以上の数値を入力")
+            
+            # 入力値の検証と変換
+            try:
+                deposit_amount = float(deposit_amount_input) if deposit_amount_input else 0.0
+                if deposit_amount < 0:
+                    st.error("入金額は0以上で入力してください")
+                    deposit_amount = 0.0
+            except ValueError:
+                st.error("有効な数値を入力してください")
+                deposit_amount = 0.0
+                
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
 
             # 差益の計算：(当日レート - 120) * EUR額
@@ -320,8 +421,6 @@ with col3:
             # 整数で手数料を計算
             fee_amount = total_urikake_amount_int + profit_margin_int - jpy_deposit_amount_int
 
-            # 手数料の計算：売掛額 + 差益 - 入金額
-            #fee_amount = total_urikake_amount + profit_margin - jpy_deposit_amount
             # 手数料が1以下なら0に設定
             if abs(fee_amount) <= 1:
                 fee_amount = 0
@@ -329,6 +428,3 @@ with col3:
             # 手数料の計算過程を表示
             fee_label = f"手数料 JPY ({total_urikake_amount_int:,.0f} + {profit_margin_int:,.0f} - {jpy_deposit_amount_int:,.0f} = {fee_amount:,.0f})"
             st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_urikake_eur", placeholder="自動計算されます")
-            
-            
-            
