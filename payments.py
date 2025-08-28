@@ -7,7 +7,6 @@ import csv
 from datetime import datetime
 
 st.set_page_config(
-    #page_title="入金伝票作成システム",
     page_icon="💰",  # グラフ上昇の絵文字をアイコンとして使用
 )
 
