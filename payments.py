@@ -41,11 +41,11 @@ load_css()
 #st.markdown('<div class="title">入金伝票作成システム</div>', unsafe_allow_html=True)
 
 # メインコンテンツ
-st.header("入金伝票")
+#st.header("入金伝票")
 col1, col2, col3 = st.columns([1,1,1])
 
 with col1:
-    st.subheader("基本情報")
+    st.subheader("入金伝票")
     
     method = st.selectbox("入金タイプ", ["前受入金", "売掛"])
     currency = st.selectbox("通貨", ["JPY", "USD", "EUR"])
