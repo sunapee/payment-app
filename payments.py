@@ -228,7 +228,7 @@ with col3:
                 st.error("有効な数値を入力してください")
                 deposit_amount = 0.0
 
-            st.write(f"入金額 USD: {deposit_amount:,.0f}")
+            st.write(f"入金額 USD: {deposit_amount:,.2f}")
                 
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
             # 差益の計算：(当日レート - 103) * USD額
@@ -276,7 +276,7 @@ with col3:
                 st.error("有効な数値を入力してください")
                 deposit_amount = 0.0
 
-            st.write(f"入金額 EUR: {deposit_amount:,.0f}")
+            st.write(f"入金額 EUR: {deposit_amount:,.2f}")
                 
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
 
@@ -354,7 +354,7 @@ with col3:
                 st.error("有効な数値を入力してください")
                 deposit_amount = 0.0
 
-            st.write(f"入金額 USD: {deposit_amount:,.0f}")
+            st.write(f"入金額 USD: {deposit_amount:,.2f}")
                 
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
 
@@ -402,7 +402,7 @@ with col3:
                 st.error("有効な数値を入力してください")
                 deposit_amount = 0.0
                 
-            st.write(f"入金額 EUR: {deposit_amount:,.0f}")
+            st.write(f"入金額 EUR: {deposit_amount:,.2f}")
                 
             jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
 
