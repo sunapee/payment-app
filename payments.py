@@ -155,19 +155,8 @@ with col2:
                     total_amount += amount_jpy
                     plan_details.append({"invoice_number": invoice_number, "amount": amount_jpy, "date": urikake_date})
 
-# (既存の with col2: ... のコード)
-
-# --- ここから追加 ---
-st.write("---")
-st.write(f"Debug @ col2 end: total_amount = {total_amount:,.0f}")
-# --- ここまで追加 ---
 
 with col3:
-    
-    # --- ここから追加 ---
-    st.write(f"Debug @ col3 start: total_amount = {total_amount:,.0f}")
-    st.write("---")
-    # --- ここまで追加 ---
     
     st.subheader("金額詳細")
     # (既存の with col3: ... のコード)
@@ -249,6 +238,12 @@ with col3:
             st.session_state[profit_key] = auto_profit_margin
             st.session_state[fee_key] = auto_fee_amount
             st.session_state[last_deposit_key] = deposit_amount
+            
+            # --- 修正点: value引数を削除したので、ウィジェットの表示をリセットするためにキーの値を直接更新 ---
+            st.session_state[f"deposit_input_{method}_{currency}"] = f"{auto_jpy_deposit:,.0f}"
+            st.session_state[f"profit_input_{method}_{currency}"] = f"{auto_profit_margin:,.0f}"
+            st.session_state[f"fee_input_{method}_{currency}"] = f"{auto_fee_amount:,.0f}"
+
 
         # 入力ウィジェットのキー
         deposit_input_key = f"deposit_input_{method}_{currency}"
@@ -259,7 +254,7 @@ with col3:
         calculated_amount_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate:.2f} = {auto_jpy_deposit:,.0f})"
         st.text_input(
             calculated_amount_label,
-            value=f"{st.session_state.get(deposit_key, 0):,.0f}",
+            # 修正点: value引数を削除
             key=deposit_input_key,
             on_change=update_manual_input,
             args=(deposit_key, deposit_input_key, auto_jpy_deposit)
@@ -269,26 +264,21 @@ with col3:
         profit_label = f"差益 JPY (({today_rate:.2f} - {base_rate:.2f}) × {foreign_amount_for_profit:,.2f} = {auto_profit_margin_raw:,.2f})"
         st.text_input(
             profit_label,
-            value=f"{st.session_state.get(profit_key, 0):,.0f}",
+            # 修正点: value引数を削除
             key=profit_input_key,
             on_change=update_manual_input,
             args=(profit_key, profit_input_key, auto_profit_margin)
         )
         
-        # 手数料（表示される計算式も手動入力値を反映）
+        # 手数料
         current_profit = st.session_state.get(profit_key, 0)
         current_deposit = st.session_state.get(deposit_key, 0)
         manual_fee_calc = total_amount + current_profit - current_deposit
         fee_label = f"手数料 JPY ({total_amount:,.0f} + {current_profit:,.0f} - {current_deposit:,.0f} = {manual_fee_calc:,.0f})"
         st.text_input(
             fee_label,
-            value=f"{st.session_state.get(fee_key, 0):,.0f}",
+            # 修正点: value引数を削除
             key=fee_input_key,
             on_change=update_manual_input,
             args=(fee_key, fee_input_key, auto_fee_amount)
         )
-
-# 問題が続く場合のデバッグ用（必要に応じてコメントを外してください）
-st.write("---")
-st.write("### デバッグ情報: Session State")
-st.json(st.session_state)
