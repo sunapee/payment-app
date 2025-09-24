@@ -367,11 +367,13 @@ with col3:
             # 計算結果を小数点第2位まで表示
             calculated_amount = deposit_amount * today_rate_usd
             deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_usd:.2f} = {calculated_amount:,.2f})"
-            st.text_input(deposit_label, value=f"{int(jpy_deposit_amount):,.0f}", key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
+            jpy_deposit_display = f"{int(jpy_deposit_amount):,}"
+            st.text_input(deposit_label, value=jpy_deposit_display, key="deposit_amount_jpy_urikake_usd", placeholder="自動計算されます")
             
             # 差益JPYをtext_inputで表示（自動更新されるように）
             profit_label = f"差益 JPY (({today_rate_usd:.2f} - {base_rate:.2f}) × {usd_amount:,.2f} = {profit_margin_raw:,.2f})"
-            st.text_input(profit_label, value=f"{profit_margin:,.0f}", key="profit_margin_urikake_usd", placeholder="自動更新されます")
+            profit_display = f"{int(profit_margin):,}"
+            st.text_input(profit_label, value=profit_display, key="profit_margin_urikake_usd", placeholder="自動更新されます")
             
             # 表示用に整数化した値を使って手数料を計算
             jpy_deposit_amount_int = int(jpy_deposit_amount)
@@ -386,7 +388,8 @@ with col3:
 
             # 手数料の計算過程を表示
             fee_label = f"手数料 JPY ({total_urikake_amount_int:,.0f} + {profit_margin_int:,.0f} - {jpy_deposit_amount_int:,.0f} = {fee_amount:,.0f})"
-            st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_urikake_usd", placeholder="自動計算されます")
+            fee_display = f"{int(fee_amount):,}"
+            st.text_input(fee_label, value=fee_display, key="fee_amount_urikake_usd", placeholder="自動計算されます")
             
         elif currency == "EUR":
             # 修正: text_inputからmin_valueパラメータを削除
