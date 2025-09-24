@@ -155,7 +155,22 @@ with col2:
                     total_amount += amount_jpy
                     plan_details.append({"invoice_number": invoice_number, "amount": amount_jpy, "date": urikake_date})
 
+# (既存の with col2: ... のコード)
+
+# --- ここから追加 ---
+st.write("---")
+st.write(f"Debug @ col2 end: total_amount = {total_amount:,.0f}")
+# --- ここまで追加 ---
+
 with col3:
+    
+    # --- ここから追加 ---
+    st.write(f"Debug @ col3 start: total_amount = {total_amount:,.0f}")
+    st.write("---")
+    # --- ここまで追加 ---
+    
+    st.subheader("金額詳細")
+    # (既存の with col3: ... のコード)
     st.subheader("金額詳細")
     
     if method == "前受入金":
