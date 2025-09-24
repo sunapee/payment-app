@@ -355,14 +355,26 @@ with col3:
                 deposit_amount = 0.0
 
             st.write(f"入金額 USD: {deposit_amount:,.2f}")
-                
-            jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
+            
+            if deposit_amount > 0 and today_rate_usd > 0:    
+                jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
 
             # 差益の計算：(当日レート - 103) * USD額
-            base_rate = 103.00
-            usd_amount = total_urikake_amount / base_rate  # 基準レートでUSDに換算
-            profit_margin_raw = (today_rate_usd - base_rate) * usd_amount  # floor前の値
-            profit_margin = math.floor((today_rate_usd - base_rate) * usd_amount + 0.0000001)
+                base_rate = 103.00
+                if total_urikake_amount > 0:
+                    usd_amount = total_urikake_amount / base_rate  # 基準レートでUSDに換算
+                    profit_margin_raw = (today_rate_usd - base_rate) * usd_amount  # floor前の値
+                    profit_margin = math.floor(profit_margin_raw + 0.0000001)
+                else:
+                    usd_amount = 0
+                    profit_margin_raw = 0
+                    profit_margin = 0
+            else:
+                jpy_deposit_amount = 0
+                profit_margin = 0
+                profit_margin_raw = 0
+                usd_amount = 0
+                
             # 入金額JPYをtext_inputで表示
             # 計算結果を小数点第2位まで表示
             calculated_amount = deposit_amount * today_rate_usd
