@@ -274,6 +274,6 @@ with col3:
         )
 
 # 問題が続く場合のデバッグ用（必要に応じてコメントを外してください）
-# st.write("---")
-# st.write("### デバッグ情報: Session State")
-# st.json(st.session_state)
+st.write("---")
+st.write("### デバッグ情報: Session State")
+st.json(st.session_state)
