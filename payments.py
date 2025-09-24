@@ -129,20 +129,25 @@ with col2:
                 plan_details.append({"plan_number": plan_number, "amount": amount, "date": urikake_date})
         else:
             num_invoice = st.number_input("Invoiceの数", min_value=1, value=1, key="num_invoice")
+            total_usd_amount = 0.0
+            
             for i in range(int(num_invoice)):
-                invoice_number = st.text_input(f"Invoice番号 {i + 1}", key=f"invoice_number_{i}")
-                urikake_date = st.date_input(f"売掛日 {i + 1}", key=f"invoice_date_{i}")
-                if currency == "USD":
-                    amount_input = st.text_input(f"売掛額{i + 1} USD", placeholder="入力", key=f"urikake_usd_{i}")
-                    try:
-                        amount_usd = float(amount_input) if amount_input else 0.0
-                    except ValueError:
-                        amount_usd = 0.0
-                    amount_jpy = math.floor(amount_usd * today_rate_usd)
-                    st.write(f"売掛額{i + 1} USD: {amount_usd:,.2f}")
-                    st.write(f"JPY換算: {amount_jpy:,.0f}")
-                    total_amount += amount_jpy
-                    plan_details.append({"invoice_number": invoice_number, "amount": amount_jpy, "date": urikake_date})
+            invoice_number = st.text_input(f"Invoice番号 {i + 1}", key=f"invoice_number_{i}")
+            urikake_date = st.date_input(f"売掛日 {i + 1}", key=f"invoice_date_{i}")
+            if currency == "USD":
+                amount_input = st.text_input(f"売掛額{i + 1} USD", placeholder="入力", key=f"urikake_usd_{i}")
+                try:
+                    amount_usd = float(amount_input) if amount_input else 0.0
+                except ValueError:
+                    amount_usd = 0.0
+                amount_jpy = math.floor(amount_usd * today_rate_usd)
+                st.write(f"売掛額{i + 1} USD: {amount_usd:,.2f}")
+                st.write(f"JPY換算: {amount_jpy:,.0f}")
+                total_amount += amount_jpy
+                # 修正: USDの合計額を加算
+                total_usd_amount += amount_usd
+                plan_details.append({"invoice_number": invoice_number, "amount": amount_jpy, "date": urikake_date})
+                
                 elif currency == "EUR":
                     amount_input = st.text_input(f"売掛額{i + 1} EUR", placeholder="入力", key=f"urikake_eur_{i}")
                     try:
@@ -153,6 +158,7 @@ with col2:
                     st.write(f"売掛額{i + 1} EUR: {amount_eur:,.2f}")
                     st.write(f"JPY換算: {amount_jpy:,.0f}")
                     total_amount += amount_jpy
+                    total_eur_amount += amount_eur
                     plan_details.append({"invoice_number": invoice_number, "amount": amount_jpy, "date": urikake_date})
 
 
@@ -218,7 +224,7 @@ with col3:
         # 自動計算
         auto_jpy_deposit = math.floor(deposit_amount * today_rate)
         foreign_amount_for_profit = total_amount / base_rate if base_rate > 0 else 0
-        auto_profit_margin_raw = (today_rate - base_rate) * foreign_amount_for_profit
+        auto_profit_margin_raw = (today_rate - base_rate) * total_usd_amount
         auto_profit_margin = math.floor(auto_profit_margin_raw + 0.0000001)
         auto_fee_amount = total_amount + auto_profit_margin - auto_jpy_deposit
         if abs(auto_fee_amount) <= 1:
