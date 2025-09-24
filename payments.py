@@ -132,8 +132,8 @@ with col2:
             total_usd_amount = 0.0
             
             for i in range(int(num_invoice)):
-            invoice_number = st.text_input(f"Invoice番号 {i + 1}", key=f"invoice_number_{i}")
-            urikake_date = st.date_input(f"売掛日 {i + 1}", key=f"invoice_date_{i}")
+                invoice_number = st.text_input(f"Invoice番号 {i + 1}", key=f"invoice_number_{i}")
+                urikake_date = st.date_input(f"売掛日 {i + 1}", key=f"invoice_date_{i}")
             if currency == "USD":
                 amount_input = st.text_input(f"売掛額{i + 1} USD", placeholder="入力", key=f"urikake_usd_{i}")
                 try:
@@ -148,18 +148,18 @@ with col2:
                 total_usd_amount += amount_usd
                 plan_details.append({"invoice_number": invoice_number, "amount": amount_jpy, "date": urikake_date})
                 
-                elif currency == "EUR":
-                    amount_input = st.text_input(f"売掛額{i + 1} EUR", placeholder="入力", key=f"urikake_eur_{i}")
-                    try:
-                        amount_eur = float(amount_input) if amount_input else 0.0
-                    except ValueError:
-                        amount_eur = 0.0
-                    amount_jpy = math.floor(amount_eur * today_rate_eur)
-                    st.write(f"売掛額{i + 1} EUR: {amount_eur:,.2f}")
-                    st.write(f"JPY換算: {amount_jpy:,.0f}")
-                    total_amount += amount_jpy
-                    total_eur_amount += amount_eur
-                    plan_details.append({"invoice_number": invoice_number, "amount": amount_jpy, "date": urikake_date})
+            elif currency == "EUR":
+                amount_input = st.text_input(f"売掛額{i + 1} EUR", placeholder="入力", key=f"urikake_eur_{i}")
+                try:
+                    amount_eur = float(amount_input) if amount_input else 0.0
+                except ValueError:
+                    amount_eur = 0.0
+                amount_jpy = math.floor(amount_eur * today_rate_eur)
+                st.write(f"売掛額{i + 1} EUR: {amount_eur:,.2f}")
+                st.write(f"JPY換算: {amount_jpy:,.0f}")
+                total_amount += amount_jpy
+                total_eur_amount += amount_eur
+                plan_details.append({"invoice_number": invoice_number, "amount": amount_jpy, "date": urikake_date})
 
 
 with col3:
