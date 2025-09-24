@@ -75,6 +75,8 @@ with col2:
     st.subheader("計画/Invoice")
     plan_details = []
     total_amount = 0.0
+    total_usd_amount = 0.0  # 全通貨・全方法で初期化
+    total_eur_amount = 0.0  # 全通貨・全方法で初期化
 
     if method == "前受入金":
         num_plans = st.number_input("計画番号の数", min_value=1, value=1, key="num_plans_advance")
@@ -99,6 +101,7 @@ with col2:
                 st.write(f"前受額{i + 1} USD: {amount_usd:,.2f}")
                 st.write(f"JPY換算: {amount_jpy:,.0f}")
                 amount_jpy_for_plan = amount_jpy
+                total_usd_amount += amount_usd  # USD合計額を加算
             elif currency == "EUR":
                 amount_input = st.text_input(f"前受額{i + 1} EUR", placeholder="入力", key=f"advance_eur_{i}")
                 try:
@@ -109,6 +112,7 @@ with col2:
                 st.write(f"前受額{i + 1} EUR: {amount_eur:,.2f}")
                 st.write(f"JPY換算: {amount_jpy:,.0f}")
                 amount_jpy_for_plan = amount_jpy
+                total_eur_amount += amount_eur  # EUR合計額を加算
             
             total_amount += amount_jpy_for_plan
             plan_details.append({"plan_number": plan_number, "amount": amount_jpy_for_plan})
