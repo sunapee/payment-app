@@ -41,7 +41,6 @@ col1, col2, col3 = st.columns([1, 1, 1])
 
 with col1:
     st.subheader("入金伝票")
-
     method = st.selectbox("入金タイプ", ["前受入金", "売掛"], key="method")
     currency = st.selectbox("通貨", ["JPY", "USD", "EUR"], key="currency")
     paytype = st.selectbox("一部or全部", ["全部", "一部"], key="paytype")
@@ -50,7 +49,7 @@ with col1:
     today_rate_usd = 103.0
     today_rate_eur = 120.0
 
-    if (method == "売掛" or method == "前受入金") and currency == "USD":
+    if currency == "USD":
         today_rate_usd_input = st.text_input("今日のレート (USD)", placeholder="入力", key="rate_usd")
         try:
             today_rate_usd = float(today_rate_usd_input) if today_rate_usd_input else 103.0
@@ -61,7 +60,7 @@ with col1:
             st.error("有効な数値を入力してください")
             today_rate_usd = 103.0
 
-    elif (method == "売掛" or method == "前受入金") and currency == "EUR":
+    elif currency == "EUR":
         today_rate_eur_input = st.text_input("今日のレート (EUR)", placeholder="入力", key="rate_eur")
         try:
             today_rate_eur = float(today_rate_eur_input) if today_rate_eur_input else 120.0
@@ -156,6 +155,7 @@ with col2:
 with col3:
     st.subheader("金額詳細")
     
+    # 合計額の表示
     if method == "前受入金":
         st.write(f"合計前受額 JPY: {total_amount:,.0f}")
     elif method == "売掛":
@@ -176,8 +176,8 @@ with col3:
                 st.error(f"入金額は{total_amount:,.0f}以下で入力してください")
                 deposit_amount = total_amount
         except ValueError:
-            st.error("有効な数値を入力してください")
             deposit_amount = 0.0
+        
         st.write(f"入金額 JPY: {deposit_amount:,.0f}")
         fee_amount = total_amount - deposit_amount
         if abs(fee_amount) <= 1:
@@ -192,28 +192,70 @@ with col3:
                 st.error("入金額は0以上で入力してください")
                 deposit_amount = 0.0
         except ValueError:
-            st.error("有効な数値を入力してください")
             deposit_amount = 0.0
         st.write(f"入金額 USD: {deposit_amount:,.2f}")
 
+        # JPY換算額、差益、手数料の計算
         base_rate = 103.00
         jpy_deposit_amount = math.floor(deposit_amount * today_rate_usd)
         usd_amount_for_profit = total_amount / base_rate if base_rate > 0 else 0
         profit_margin_raw = (today_rate_usd - base_rate) * usd_amount_for_profit
         profit_margin = math.floor(profit_margin_raw + 0.0000001)
 
-        calculated_amount = deposit_amount * today_rate_usd
-        deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_usd:.2f} = {calculated_amount:,.2f})"
-        st.text_input(deposit_label, value=f"{jpy_deposit_amount:,.0f}", key="jpy_deposit_display_usd", disabled=True)
-        
-        profit_label = f"差益 JPY (({today_rate_usd:.2f} - {base_rate:.2f}) × {usd_amount_for_profit:,.2f} = {profit_margin_raw:,.2f})"
-        st.text_input(profit_label, value=f"{profit_margin:,.0f}", key="profit_margin_display_usd", disabled=True)
-        
         fee_amount = total_amount + profit_margin - jpy_deposit_amount
         if abs(fee_amount) <= 1:
             fee_amount = 0
+
+        # --- 手動入力と自動計算のロジック ---
+        # セッションステートに値が存在しなければ初期値をセット
+        if f'jpy_deposit_{method}_{currency}' not in st.session_state:
+            st.session_state[f'jpy_deposit_{method}_{currency}'] = jpy_deposit_amount
+        
+        if f'profit_margin_{method}_{currency}' not in st.session_state:
+            st.session_state[f'profit_margin_{method}_{currency}'] = profit_margin
+
+        if f'fee_amount_{method}_{currency}' not in st.session_state:
+            st.session_state[f'fee_amount_{method}_{currency}'] = fee_amount
+
+        # 入力ウィジェットのキーと値の設定
+        deposit_key = f"jpy_deposit_input_{method}_{currency}"
+        profit_key = f"profit_margin_input_{method}_{currency}"
+        fee_key = f"fee_amount_input_{method}_{currency}"
+        
+        # ユーザーが入力した値をセッションステートに上書き
+        def update_jpy_deposit():
+            st.session_state[f'jpy_deposit_{method}_{currency}'] = st.session_state[deposit_key]
+
+        def update_profit():
+            st.session_state[f'profit_margin_{method}_{currency}'] = st.session_state[profit_key]
+
+        def update_fee():
+            st.session_state[f'fee_amount_{method}_{currency}'] = st.session_state[fee_key]
+        
+        # --- 入力ウィジェットの表示 ---
+        calculated_amount_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_usd:.2f} = {deposit_amount * today_rate_usd:,.2f})"
+        st.text_input(
+            calculated_amount_label, 
+            value=f"{st.session_state[f'jpy_deposit_{method}_{currency}']:,.0f}", 
+            key=deposit_key,
+            on_change=update_jpy_deposit
+        )
+        
+        profit_label = f"差益 JPY (({today_rate_usd:.2f} - {base_rate:.2f}) × {usd_amount_for_profit:,.2f} = {profit_margin_raw:,.2f})"
+        st.text_input(
+            profit_label, 
+            value=f"{st.session_state[f'profit_margin_{method}_{currency}']:,.0f}", 
+            key=profit_key,
+            on_change=update_profit
+        )
+        
         fee_label = f"手数料 JPY ({total_amount:,.0f} + {profit_margin:,.0f} - {jpy_deposit_amount:,.0f} = {fee_amount:,.0f})"
-        st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_display_usd", disabled=True)
+        st.text_input(
+            fee_label, 
+            value=f"{st.session_state[f'fee_amount_{method}_{currency}']:,.0f}", 
+            key=fee_key,
+            on_change=update_fee
+        )
 
     elif currency == "EUR":
         deposit_amount_input = st.text_input(f"入金額 {currency}", placeholder="0以上の数値を入力", key="deposit_eur")
@@ -223,25 +265,67 @@ with col3:
                 st.error("入金額は0以上で入力してください")
                 deposit_amount = 0.0
         except ValueError:
-            st.error("有効な数値を入力してください")
             deposit_amount = 0.0
         st.write(f"入金額 EUR: {deposit_amount:,.2f}")
 
+        # JPY換算額、差益、手数料の計算
         base_rate = 120.00
         jpy_deposit_amount = math.floor(deposit_amount * today_rate_eur)
         eur_amount_for_profit = total_amount / base_rate if base_rate > 0 else 0
         profit_margin_raw = (today_rate_eur - base_rate) * eur_amount_for_profit
         profit_margin = math.floor(profit_margin_raw + 0.0000001)
 
-        calculated_amount = deposit_amount * today_rate_eur
-        deposit_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_eur:.2f} = {calculated_amount:,.2f})"
-        st.text_input(deposit_label, value=f"{jpy_deposit_amount:,.0f}", key="jpy_deposit_display_eur", disabled=True)
-        
-        profit_label = f"差益 JPY (({today_rate_eur:.2f} - {base_rate:.2f}) × {eur_amount_for_profit:,.2f} = {profit_margin_raw:,.2f})"
-        st.text_input(profit_label, value=f"{profit_margin:,.0f}", key="profit_margin_display_eur", disabled=True)
-        
         fee_amount = total_amount + profit_margin - jpy_deposit_amount
         if abs(fee_amount) <= 1:
             fee_amount = 0
+
+        # --- 手動入力と自動計算のロジック ---
+        # セッションステートに値が存在しなければ初期値をセット
+        if f'jpy_deposit_{method}_{currency}' not in st.session_state:
+            st.session_state[f'jpy_deposit_{method}_{currency}'] = jpy_deposit_amount
+        
+        if f'profit_margin_{method}_{currency}' not in st.session_state:
+            st.session_state[f'profit_margin_{method}_{currency}'] = profit_margin
+
+        if f'fee_amount_{method}_{currency}' not in st.session_state:
+            st.session_state[f'fee_amount_{method}_{currency}'] = fee_amount
+
+        # 入力ウィジェットのキーと値の設定
+        deposit_key = f"jpy_deposit_input_{method}_{currency}"
+        profit_key = f"profit_margin_input_{method}_{currency}"
+        fee_key = f"fee_amount_input_{method}_{currency}"
+        
+        # ユーザーが入力した値をセッションステートに上書き
+        def update_jpy_deposit():
+            st.session_state[f'jpy_deposit_{method}_{currency}'] = st.session_state[deposit_key]
+
+        def update_profit():
+            st.session_state[f'profit_margin_{method}_{currency}'] = st.session_state[profit_key]
+
+        def update_fee():
+            st.session_state[f'fee_amount_{method}_{currency}'] = st.session_state[fee_key]
+
+        # --- 入力ウィジェットの表示 ---
+        calculated_amount_label = f"入金額 JPY ({deposit_amount:,.2f} × {today_rate_eur:.2f} = {deposit_amount * today_rate_eur:,.2f})"
+        st.text_input(
+            calculated_amount_label, 
+            value=f"{st.session_state[f'jpy_deposit_{method}_{currency}']:,.0f}", 
+            key=deposit_key,
+            on_change=update_jpy_deposit
+        )
+        
+        profit_label = f"差益 JPY (({today_rate_eur:.2f} - {base_rate:.2f}) × {eur_amount_for_profit:,.2f} = {profit_margin_raw:,.2f})"
+        st.text_input(
+            profit_label, 
+            value=f"{st.session_state[f'profit_margin_{method}_{currency}']:,.0f}", 
+            key=profit_key,
+            on_change=update_profit
+        )
+        
         fee_label = f"手数料 JPY ({total_amount:,.0f} + {profit_margin:,.0f} - {jpy_deposit_amount:,.0f} = {fee_amount:,.0f})"
-        st.text_input(fee_label, value=f"{fee_amount:,.0f}", key="fee_amount_display_eur", disabled=True)
+        st.text_input(
+            fee_label, 
+            value=f"{st.session_state[f'fee_amount_{method}_{currency}']:,.0f}", 
+            key=fee_key,
+            on_change=update_fee
+        )
