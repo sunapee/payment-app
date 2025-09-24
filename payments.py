@@ -95,7 +95,7 @@ with col2:
                     amount_usd = float(amount_input) if amount_input else 0.0
                 except ValueError:
                     amount_usd = 0.0
-                amount_jpy = amount_usd * today_rate_usd
+                amount_jpy = amount_usd * 103
                 st.write(f"前受額{i + 1} USD: {amount_usd:,.2f}")
                 st.write(f"JPY換算: {amount_jpy:,.0f}")
                 amount_jpy_for_plan = amount_jpy
@@ -105,7 +105,7 @@ with col2:
                     amount_eur = float(amount_input) if amount_input else 0.0
                 except ValueError:
                     amount_eur = 0.0
-                amount_jpy = amount_eur * today_rate_eur
+                amount_jpy = amount_eur * 120
                 st.write(f"前受額{i + 1} EUR: {amount_eur:,.2f}")
                 st.write(f"JPY換算: {amount_jpy:,.0f}")
                 amount_jpy_for_plan = amount_jpy
@@ -142,7 +142,7 @@ with col2:
                         amount_usd = float(amount_input) if amount_input else 0.0
                     except ValueError:
                         amount_usd = 0.0
-                    amount_jpy = math.floor(amount_usd * today_rate_usd)
+                    amount_jpy = math.floor(amount_usd * 103.0)  # ベースレートで計算
                     st.write(f"売掛額{i + 1} USD: {amount_usd:,.2f}")
                     st.write(f"JPY換算: {amount_jpy:,.0f}")
                     total_amount += amount_jpy
@@ -155,7 +155,7 @@ with col2:
                         amount_eur = float(amount_input) if amount_input else 0.0
                     except ValueError:
                         amount_eur = 0.0
-                    amount_jpy = math.floor(amount_eur * today_rate_eur)
+                    amount_jpy = math.floor(amount_eur * 120)
                     st.write(f"売掛額{i + 1} EUR: {amount_eur:,.2f}")
                     st.write(f"JPY換算: {amount_jpy:,.0f}")
                     total_amount += amount_jpy
