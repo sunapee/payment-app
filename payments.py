@@ -159,8 +159,6 @@ with col2:
 with col3:
     
     st.subheader("金額詳細")
-    # (既存の with col3: ... のコード)
-    st.subheader("金額詳細")
     
     if method == "前受入金":
         st.write(f"合計前受額 JPY: {total_amount:,.0f}")
